@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #6B3FA0;
+    --secondary: #1D9E75;
+    --accent: #E65100;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark-bg text-light-bg font-sans antialiased;
+    background-color: #0A0A0F;
+    color: #F5F4F0;
+  }
+
+  .light body,
+  html.light body {
+    @apply bg-light-bg text-dark-bg;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #12121A;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #6B3FA0;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9353D3;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(107, 63, 160, 0.35);
+    color: #F5F4F0;
+  }
+}
+
+@layer components {
+  /* Glass card effect */
+  .glass {
+    @apply backdrop-blur-md border border-dark-border;
+    background: rgba(26, 26, 38, 0.7);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Button components */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: linear-gradient(135deg, #6B3FA0, #9353D3);
+    box-shadow: 0 4px 16px rgba(107, 63, 160, 0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(107, 63, 160, 0.5);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: linear-gradient(135deg, #1D9E75, #2FB089);
+    box-shadow: 0 4px 16px rgba(29, 158, 117, 0.35);
+  }
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(29, 158, 117, 0.5);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 border;
+    border-color: rgba(107, 63, 160, 0.4);
+    color: #C9A9E9;
+  }
+  .btn-ghost:hover {
+    background: rgba(107, 63, 160, 0.1);
+    border-color: #6B3FA0;
+    color: #F5F4F0;
+  }
+
+  /* Card base */
+  .card-dark {
+    @apply rounded-2xl border transition-all duration-300;
+    background: #1A1A26;
+    border-color: #2A2A3E;
+  }
+  .card-dark:hover {
+    border-color: rgba(107, 63, 160, 0.5);
+    box-shadow: 0 12px 40px rgba(107, 63, 160, 0.2);
+    transform: translateY(-4px);
+  }
+
+  /* Gradient text */
+  .gradient-text-primary {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #6B3FA0, #C9A9E9);
+  }
+
+  .gradient-text-secondary {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #1D9E75, #56C3A2);
+  }
+
+  .gradient-text-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #F59E0B, #FBBF24);
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  /* Shimmer loading skeleton */
+  .skeleton {
+    background: linear-gradient(90deg, #1A1A26 25%, #2A2A3E 50%, #1A1A26 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Section title */
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-[0.2em] mb-3;
+    color: #6B3FA0;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t my-8;
+    border-color: #2A2A3E;
+  }
+
+  /* Noise overlay */
+  .noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient borders */
+  .border-gradient-primary {
+    border: 1px solid transparent;
+    background: linear-gradient(#1A1A26, #1A1A26) padding-box,
+                linear-gradient(135deg, #6B3FA0, #C9A9E9) border-box;
+  }
+
+  /* Scrollbar hide */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* WhatsApp green */
+  .wa-green { color: #25D366; }
+  .bg-wa-dark { background: #0B141A; }
+  .bg-wa-chat { background: #1F2C34; }
+
+  /* Glow effects */
+  .glow-primary { box-shadow: 0 0 30px rgba(107, 63, 160, 0.4); }
+  .glow-secondary { box-shadow: 0 0 30px rgba(29, 158, 117, 0.4); }
+  .glow-accent { box-shadow: 0 0 30px rgba(230, 81, 0, 0.4); }
+}
+
+/* Page transition */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Indian map gradient */
+.india-map-gradient {
+  background: radial-gradient(ellipse at center, rgba(107, 63, 160, 0.15) 0%, transparent 70%);
+}
+
+/* Rupee font styling */
+.rupee {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+}
+
+/* Hindi text */
+.hindi {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* Animated gradient background */
+.animated-bg {
+  background: linear-gradient(-45deg, #0A0A0F, #12121A, #1A1226, #0D1520);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Pulse ring animation */
+@keyframes pingRing {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+.ping-ring {
+  animation: pingRing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Number animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
