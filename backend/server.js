@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const schemeRoutes = require('./routes/schemeRoutes');
+app.use('/api', schemeRoutes);
+
 // Health endpoint
 app.get('/', (req, res) => {
   res.json({
