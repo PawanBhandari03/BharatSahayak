@@ -4,7 +4,7 @@
 // based on the user's actual registration profile
 // ============================================================
 
-import { SCHEMES_DATA } from './schemeService';
+import { SCHEMES_DATA } from '../services/schemeService';
 
 // Convert income range string → numeric max value
 function incomeMax(range) {

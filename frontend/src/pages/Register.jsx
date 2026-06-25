@@ -7,8 +7,10 @@ import {
   Eye, EyeOff, Loader2, MessageSquare, Star, Lock
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import { useUser } from '../context/UserContext';
 import { matchSchemesForUser } from '../utils/schemeMatcher';
+import { SCHEMES_DATA } from '../services/schemeService';
 
 // ──────────────────────────── Constants ────────────────────────────
 const STATES = [
@@ -719,21 +721,56 @@ export default function Register() {
     }
     setSubmitting(true);
 
-    // Run real-time AI scheme matching on user's profile
-    const schemes = matchSchemesForUser(formData);
-    const matched = schemes.filter(s => s.isMatched);
+    try {
+      const getIncomeNumber = (range) => {
+        if (!range) return 0;
+        if (range.includes('50,000') || range.startsWith('Up to')) return 50000;
+        if (range.includes('1,00,000')) return 100000;
+        if (range.includes('1,50,000')) return 150000;
+        if (range.includes('2,00,000')) return 200000;
+        if (range.includes('3,00,000')) return 300000;
+        if (range.includes('5,00,000')) return 500000;
+        return 999999;
+      };
 
-    // Save profile + matched schemes to global context + localStorage
-    saveUser(formData, schemes);
+      const backendPayload = {
+        ...formData,
+        annualIncome: getIncomeNumber(formData.income),
+      };
 
-    await new Promise(r => setTimeout(r, 1200));
-    setSubmitting(false);
+      // 1. Fetch matched schemes from backend
+      const matchRes = await axios.post('http://localhost:5000/api/match-schemes', backendPayload);
+      const matchedBackend = matchRes.data;
 
-    toast.success(
-      `🎉 Profile created! Found ${matched.length} schemes for you worth ₹${matched.reduce((sum, s) => sum + (s.benefitAmount || 0), 0).toLocaleString('en-IN')}+`,
-      { duration: 5000, style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' } }
-    );
-    setTimeout(() => navigate('/dashboard'), 1500);
+      // 2. Fetch AI Recommendations from backend
+      const aiRes = await axios.post('http://localhost:5000/api/ai-recommend', {
+        profile: backendPayload,
+        matchedSchemes: matchedBackend
+      });
+
+      // Combine with UI data structure
+      const fullSchemes = SCHEMES_DATA.map(s => {
+        const isMatched = matchedBackend.some(b => b.id === s.id);
+        return { ...s, isMatched, matchScore: isMatched ? 95 : 0 };
+      });
+
+      const matched = fullSchemes.filter(s => s.isMatched);
+
+      // Save profile + matched schemes + AI recs to global context
+      saveUser(formData, fullSchemes, aiRes.data);
+
+      setSubmitting(false);
+
+      toast.success(
+        `🎉 AI found ${matched.length} schemes for you! Preparing your personalized dashboard...`,
+        { duration: 5000, style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' } }
+      );
+      setTimeout(() => navigate('/dashboard'), 1500);
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
+      toast.error('Something went wrong connecting to the AI backend. Make sure the server is running on port 5000.', { duration: 6000 });
+    }
   };
 
   const renderStep = () => {

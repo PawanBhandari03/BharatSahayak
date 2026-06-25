@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   MapPin, Wifi, WifiOff, Clock, Bell, Calendar, AlertTriangle,
-  ArrowRight, PhoneCall, LogOut, UserPlus
+  ArrowRight, PhoneCall, LogOut, UserPlus, Sparkles, Zap, FileStack, CheckCircle
 } from 'lucide-react';
 import BenefitWallet from '../components/BenefitWallet';
 import SchemeCard from '../components/SchemeCard';
@@ -217,7 +217,7 @@ function useDeadlines(matchedSchemes) {
 // Main Dashboard
 // ─────────────────────────────
 export default function Dashboard() {
-  const { user, matchedSchemes, clearUser } = useUser();
+  const { user, matchedSchemes, aiRecommendations, clearUser } = useUser();
   const navigate = useNavigate();
 
   // If no user registered, show prompt
@@ -299,6 +299,61 @@ export default function Dashboard() {
 
           {/* CENTER + RIGHT */}
           <div className="xl:col-span-2 space-y-6">
+            
+            {/* AI Recommendations */}
+            {aiRecommendations && (
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border p-6 relative overflow-hidden"
+                style={{ background: 'linear-gradient(to right, rgba(107, 63, 160, 0.15), rgba(29, 158, 117, 0.1))', borderColor: 'rgba(107, 63, 160, 0.3)' }}
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent" />
+                
+                <h3 className="text-white font-bold text-xl mb-3 flex items-center gap-2">
+                  <Sparkles className="text-primary" size={20} />
+                  AI Recommendations
+                </h3>
+                
+                <p className="text-white/80 italic mb-6 border-l-2 border-primary/50 pl-3">
+                  "{aiRecommendations.personalizedMessage}"
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Priority Schemes */}
+                  <div>
+                    <h4 className="text-white font-semibold mb-3 flex items-center gap-2 text-sm">
+                      <Zap className="text-secondary" size={16} />
+                      Top Priority Schemes
+                    </h4>
+                    <div className="space-y-3">
+                      {aiRecommendations.topSchemes?.map((s, idx) => (
+                        <div key={idx} className="bg-dark/40 rounded-xl p-3 border border-dark-border">
+                          <p className="text-white font-medium text-sm mb-1">{s.name}</p>
+                          <p className="text-white/50 text-xs">{s.reason}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Documents Required */}
+                  <div>
+                    <h4 className="text-white font-semibold mb-3 flex items-center gap-2 text-sm">
+                      <FileStack className="text-accent" size={16} />
+                      Documents to Arrange
+                    </h4>
+                    <ul className="space-y-2">
+                      {aiRecommendations.documentsToArrange?.map((doc, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-white/70">
+                          <CheckCircle size={14} className="text-primary mt-0.5 shrink-0" />
+                          {doc}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* Benefit Wallet */}
             <BenefitWallet wallet={wallet} />
 

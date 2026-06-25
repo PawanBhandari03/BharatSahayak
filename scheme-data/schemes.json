@@ -1,0 +1,300 @@
+[
+  {
+    "id": "pm-kisan",
+    "name": "Pradhan Mantri Kisan Samman Nidhi",
+    "amount": 6000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Land ownership records (7/12 or Khatauni)",
+      "Aadhaar-linked bank account passbook",
+      "Mobile number"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["farmer / kisan", "agricultural labourer"],
+      "maxAnnualIncome": 500000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "sanjay-gandhi-niradhar",
+    "name": "Sanjay Gandhi Niradhar Yojana",
+    "amount": 18000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Husband's Death Certificate",
+      "Income Certificate from Tehsildar (≤ ₹21,000/year)",
+      "Maharashtra Domicile Certificate",
+      "Aadhaar-linked Bank Passbook"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": 65,
+      "gender": "female",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 100000,
+      "state": "maharashtra",
+      "maritalStatus": "widow / widower"
+    }
+  },
+  {
+    "id": "ignwps",
+    "name": "Indira Gandhi National Widow Pension Scheme",
+    "amount": 3600,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Death Certificate of husband",
+      "BPL Ration Card",
+      "Bank Passbook"
+    ],
+    "eligibility": {
+      "minAge": 40,
+      "maxAge": 79,
+      "gender": "female",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 100000,
+      "state": "all",
+      "maritalStatus": "widow / widower"
+    }
+  },
+  {
+    "id": "ayushman-bharat",
+    "name": "Ayushman Bharat PM-JAY",
+    "amount": 500000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Ration Card or PM/CM letter",
+      "Proof of age (for senior citizens)"
+    ],
+    "eligibility": {
+      "minAge": 0,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 200000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmuy",
+    "name": "PM Ujjwala Yojana 2.0",
+    "amount": 1200,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Ration Card",
+      "Aadhaar-linked Bank Passbook",
+      "14-point Deprivation Declaration form"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "female",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 200000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmay-g",
+    "name": "PMAY-Gramin",
+    "amount": 120000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Aadhaar-linked Bank Account",
+      "MGNREGA Job Card",
+      "Voter ID / Ration Card",
+      "Affidavit declaring no pucca house ownership"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 200000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmjjby",
+    "name": "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+    "amount": 200000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Bank Passbook",
+      "Consent form for Auto-Debit"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": 50,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": null,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmsby",
+    "name": "Pradhan Mantri Suraksha Bima Yojana",
+    "amount": 200000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Bank Passbook",
+      "Consent form for Auto-Debit"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": 70,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": null,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "mahadbt-shetkari",
+    "name": "MahaDBT Shetkari Schemes",
+    "amount": 50000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "7/12 extract and 8A holding details",
+      "Bank Passbook",
+      "Mobile number linked with Aadhaar"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["farmer / kisan", "agricultural labourer"],
+      "maxAnnualIncome": null,
+      "state": "maharashtra",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "mudra-loan",
+    "name": "Mudra Loan",
+    "amount": 100000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Identity Proof / Business Address Proof",
+      "Machinery/equipment quotation or business plan",
+      "Passport size photographs"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": [
+        "farmer / kisan",
+        "street vendor / small trader",
+        "self-employed (small business)",
+        "artisan / craftsperson",
+        "other"
+      ],
+      "maxAnnualIncome": null,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmkvy",
+    "name": "Pradhan Mantri Kaushal Vikas Yojana",
+    "amount": 8000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Educational qualification certificates",
+      "Bank Account details",
+      "Passport size photos"
+    ],
+    "eligibility": {
+      "minAge": 15,
+      "maxAge": 45,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["student", "other"],
+      "maxAnnualIncome": null,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "startup-india",
+    "name": "Startup India Initiative",
+    "amount": 500000,
+    "documentsRequired": [
+      "DPIIT Recognition Certificate",
+      "Business Plan / Pitch Deck",
+      "Incorporation/Registration Certificate",
+      "Brief write-up on the innovative nature of business"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": null,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["self-employed (small business)", "other"],
+      "maxAnnualIncome": null,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "pmsss",
+    "name": "Prime Minister's Special Scholarship Scheme",
+    "amount": 150000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Domicile Certificate of J&K / Ladakh",
+      "Class 10th & 12th Marksheet",
+      "Income Certificate (family income ≤ ₹8 Lakh/year)"
+    ],
+    "eligibility": {
+      "minAge": 17,
+      "maxAge": 25,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["student"],
+      "maxAnnualIncome": 800000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  },
+  {
+    "id": "atal-pension",
+    "name": "Atal Pension Yojana",
+    "amount": 5000,
+    "documentsRequired": [
+      "Aadhaar Card",
+      "Active Mobile number",
+      "Savings Bank account with auto-debit consent"
+    ],
+    "eligibility": {
+      "minAge": 18,
+      "maxAge": 40,
+      "gender": "any",
+      "category": ["any"],
+      "occupation": ["any"],
+      "maxAnnualIncome": 500000,
+      "state": "all",
+      "maritalStatus": "any"
+    }
+  }
+]

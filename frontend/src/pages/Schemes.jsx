@@ -293,4 +293,46 @@ export default function Schemes() {
             {CATEGORIES.map(cat => (
               <FilterChip
                 key={cat}
-         
+                label={cat}
+                active={activeCategory === cat}
+                onClick={() => setActiveCategory(cat)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Results count */}
+        <div className="flex items-center justify-between mb-5">
+          <p className="text-white/40 text-sm">
+            {loading ? 'Loading...' : `${filtered.length} scheme${filtered.length !== 1 ? 's' : ''} found`}
+          </p>
+          {hasFilters && (
+            <button onClick={clearFilters} className="text-xs text-accent hover:underline">
+              Clear all filters
+            </button>
+          )}
+        </div>
+
+        {/* Scheme grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {loading ? (
+            Array.from({ length: 9 }).map((_, i) => <SchemeCardSkeleton key={i} />)
+          ) : filtered.length === 0 ? (
+            <EmptyState query={search} />
+          ) : (
+            filtered.map((scheme, i) => (
+              <motion.div
+                key={scheme.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+              >
+                <SchemeCard scheme={scheme} />
+              </motion.div>
+            ))
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
