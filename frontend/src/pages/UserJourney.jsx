@@ -31,7 +31,7 @@ function VoiceCallSimulator() {
   const startCall = () => {
     setCallActive(true);
     toast.success('📞 Simulating AI voice call in Hindi...', {
-      style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' }
+      style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' }
     });
     setPlaying(true);
 
@@ -45,16 +45,16 @@ function VoiceCallSimulator() {
         setPlaying(false);
         setProgress(0);
         toast.success('✅ Call completed! Summary sent on WhatsApp.', {
-          style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' }
+          style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' }
         });
       }
     }, 1000);
   };
 
   return (
-    <div className="rounded-2xl border overflow-hidden" style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}>
+    <div className="rounded-2xl border overflow-hidden" style={{ background: '#221E3D', borderColor: '#2E2856' }}>
       {/* Header */}
-      <div className="px-6 py-4 border-b border-dark-border" style={{ background: '#12121A' }}>
+      <div className="px-6 py-4 border-b border-dark-border" style={{ background: '#1A1633' }}>
         <h3 className="text-white font-bold flex items-center gap-2">
           <Phone size={18} className="text-secondary" />
           Voice Call Simulator

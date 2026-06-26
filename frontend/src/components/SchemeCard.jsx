@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 const CATEGORY_COLORS = {
   Agriculture: '#1D9E75',
-  'Social Welfare': '#6B3FA0',
+  'Social Welfare': '#7C3AED',
   Housing: '#E65100',
   Health: '#2196F3',
   Insurance: '#9C27B0',
@@ -51,7 +51,7 @@ function DeadlineBadge({ daysLeft, deadline }) {
 }
 
 export default function SchemeCard({ scheme, compact = false }) {
-  const categoryColor = CATEGORY_COLORS[scheme.category] || '#6B3FA0';
+  const categoryColor = CATEGORY_COLORS[scheme.category] || '#7C3AED';
 
   const handleEligibility = (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ export default function SchemeCard({ scheme, compact = false }) {
         `✅ Eligible! Match: ${scheme.matchScore}% — ${scheme.documents.length} documents needed.`,
         {
           duration: 4000,
-          style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' },
+          style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' },
         }
       );
     } else {
@@ -68,7 +68,7 @@ export default function SchemeCard({ scheme, compact = false }) {
         `You need: ${scheme.documents[0]}. Score: ${scheme.matchScore}%`,
         {
           duration: 4000,
-          style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #E65100' },
+          style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #E65100' },
         }
       );
     }
@@ -80,7 +80,7 @@ export default function SchemeCard({ scheme, compact = false }) {
       toast.success(`📋 Opening official portal: ${scheme.officialPortal}`, {
         duration: 3000,
         icon: '🏛️',
-        style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #6B3FA0' },
+        style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #7C3AED' },
       });
       setTimeout(() => window.open(scheme.officialPortal, '_blank'), 1200);
     }
@@ -90,7 +90,7 @@ export default function SchemeCard({ scheme, compact = false }) {
     <motion.div
       whileHover={{ y: -6, scale: 1.01 }}
       className="relative rounded-2xl border overflow-hidden group transition-all duration-300 flex flex-col"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Category top bar */}
       <div className="h-1 w-full flex-shrink-0" style={{ background: `linear-gradient(90deg, ${categoryColor}, ${categoryColor}60)` }} />

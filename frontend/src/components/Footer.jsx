@@ -33,10 +33,10 @@ const TECH_STACK = [
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-dark-border mt-auto" style={{ background: '#08080E' }}>
+    <footer className="relative border-t border-dark-border mt-auto" style={{ background: '#100E26' }}>
       {/* Top gradient */}
       <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, #6B3FA0, #1D9E75, transparent)' }} />
+        style={{ background: 'linear-gradient(90deg, transparent, #7C3AED, #1D9E75, transparent)' }} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Top section */}
@@ -45,11 +45,11 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                style={{ background: 'linear-gradient(135deg, #6B3FA0, #9353D3)' }}>
+                style={{ background: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }}>
                 🇮🇳
               </div>
               <span className="text-white font-bold text-xl">
-                Bharat<span style={{ color: '#9353D3' }}>Sahayak</span>
+                Bharat<span style={{ color: '#7C3AED' }}>Sahayak</span>
               </span>
             </Link>
 

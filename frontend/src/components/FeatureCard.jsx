@@ -24,8 +24,8 @@ export default function FeatureCard({ icon, title, description, badge, color, in
       whileHover={{ y: -8, scale: 1.02 }}
       className="relative group rounded-2xl p-6 border transition-all duration-300 cursor-default"
       style={{
-        background: '#1A1A26',
-        borderColor: '#2A2A3E',
+        background: '#221E3D',
+        borderColor: '#2E2856',
       }}
     >
       {/* Hover glow effect */}

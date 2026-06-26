@@ -44,11 +44,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
           scrolled
-            ? 'py-3 backdrop-blur-xl border-b border-dark-border/50'
+            ? 'py-3 backdrop-blur-xl border-b border-dark-border/50 shadow-glow-primary/10'
             : 'py-5'
         }`}
         style={{
-          background: scrolled ? 'rgba(10, 10, 15, 0.9)' : 'transparent',
+          background: scrolled ? 'rgba(13, 11, 31, 0.85)' : 'transparent',
         }}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
@@ -59,12 +59,12 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
               <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-transform group-hover:scale-110"
-                style={{ background: 'linear-gradient(135deg, #6B3FA0, #9353D3)' }}>
+                style={{ background: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }}>
                 🇮🇳
               </div>
               <div className="leading-tight">
                 <span className="text-white font-bold text-lg">Bharat</span>
-                <span className="font-bold text-lg" style={{ color: '#9353D3' }}>Sahayak</span>
+                <span className="font-bold text-lg" style={{ color: '#7C3AED' }}>Sahayak</span>
               </div>
             </Link>
 
@@ -84,7 +84,7 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
                     <motion.span
                       layoutId="navActive"
                       className="absolute inset-0 rounded-lg"
-                      style={{ background: 'rgba(107, 63, 160, 0.2)', border: '1px solid rgba(107, 63, 160, 0.4)' }}
+                      style={{ background: 'rgba(124, 58, 237, 0.15)', border: '1px solid rgba(124, 58, 237, 0.3)' }}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -114,7 +114,7 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -8, scale: 0.95 }}
                       className="absolute right-0 top-full mt-2 w-32 rounded-xl border border-dark-border overflow-hidden z-50"
-                      style={{ background: '#1A1A26' }}
+                      style={{ background: '#221E3D' }}
                     >
                       {LANGUAGES.map((lang) => (
                         <button
@@ -135,11 +135,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
               {/* Dark mode toggle */}
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => toast('BharatSahayak is optimized in Dark Mode for high readability! 🌙', { icon: '✨' })}
                 className="w-9 h-9 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-all"
                 title="Toggle theme"
               >
-                {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+                <Moon size={16} />
               </button>
 
               {/* CTA */}
@@ -177,7 +177,7 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               className="fixed right-0 top-0 bottom-0 z-40 w-72 md:hidden border-l border-dark-border"
-              style={{ background: '#12121A' }}
+              style={{ background: '#1A1633' }}
             >
               <div className="flex flex-col h-full pt-20 pb-8 px-6">
                 <div className="flex flex-col gap-1">
@@ -220,11 +220,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
                   <div className="flex gap-2">
                     <button
-                      onClick={() => setDarkMode(!darkMode)}
+                      onClick={() => toast('BharatSahayak is optimized in Dark Mode for high readability! 🌙', { icon: '✨' })}
                       className="flex-1 py-2.5 rounded-lg text-sm text-white/60 bg-dark-card hover:text-white transition-all flex items-center justify-center gap-2"
                     >
-                      {darkMode ? <Sun size={14} /> : <Moon size={14} />}
-                      {darkMode ? 'Light' : 'Dark'}
+                      <Moon size={14} />
+                      Dark Mode
                     </button>
                   </div>
 

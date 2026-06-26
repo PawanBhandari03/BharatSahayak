@@ -44,9 +44,9 @@ function FilterDropdown({ label, options, value, onChange }) {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border transition-all"
         style={{
-          background: value && value !== options[0] ? 'rgba(107, 63, 160, 0.15)' : '#1A1A26',
-          borderColor: value && value !== options[0] ? 'rgba(107, 63, 160, 0.5)' : '#2A2A3E',
-          color: value && value !== options[0] ? '#C9A9E9' : 'rgba(255,255,255,0.5)'
+          background: value && value !== options[0] ? 'rgba(124, 58, 237, 0.15)' : '#221E3D',
+          borderColor: value && value !== options[0] ? 'rgba(124, 58, 237, 0.5)' : '#2E2856',
+          color: value && value !== options[0] ? '#DDD6FE' : 'rgba(255,255,255,0.5)'
         }}
       >
         {label}: <span className="font-medium">{value || options[0]}</span>
@@ -59,7 +59,7 @@ function FilterDropdown({ label, options, value, onChange }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             className="absolute top-full left-0 mt-2 w-44 rounded-xl border border-dark-border z-20 py-1 overflow-hidden shadow-xl"
-            style={{ background: '#1A1A26' }}
+            style={{ background: '#221E3D', borderColor: '#2E2856' }}
           >
             {options.map(opt => (
               <button
@@ -97,7 +97,7 @@ function EmptyState({ query }) {
 
 function SchemeCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-dark-border p-5 space-y-3 animate-pulse" style={{ background: '#1A1A26' }}>
+    <div className="rounded-2xl border border-dark-border p-5 space-y-3 animate-pulse" style={{ background: '#221E3D', borderColor: '#2E2856' }}>
       <div className="h-4 bg-dark-border rounded w-3/4" />
       <div className="h-3 bg-dark-border rounded w-1/2" />
       <div className="h-8 bg-dark-border rounded" />

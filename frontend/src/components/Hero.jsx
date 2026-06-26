@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play, ChevronDown } from 'lucide-react';
+import WhatsAppDemo from './WhatsAppDemo';
 
 // Animated SVG India map with pulsing scheme nodes
 function IndiaMapSVG() {
@@ -103,14 +104,14 @@ const WORDS_HEADLINE = ['₹2.6', 'Lakh', 'Crore', 'Goes', 'Unclaimed', 'Every',
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16">
       {/* Animated background */}
       <div className="absolute inset-0 animated-bg" />
 
       {/* Radial glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
-          style={{ background: 'radial-gradient(ellipse, rgba(107, 63, 160, 0.15) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(ellipse, rgba(124, 58, 237, 0.15) 0%, transparent 70%)' }} />
       </div>
 
       {/* India map background */}
@@ -118,110 +119,131 @@ export default function Hero() {
 
       {/* Floating badges */}
       <FloatingBadge text="✅ PM-KISAN ₹6,000" className="hidden xl:flex top-32 left-16 text-secondary" delay={1.2} />
-      <FloatingBadge text="🏥 Ayushman ₹5L" className="hidden xl:flex top-48 right-16 text-blue-400" delay={1.6} />
+      <FloatingBadge text="🏥 Ayushman ₹5L" className="hidden xl:flex top-48 right-[32rem] text-blue-400" delay={1.6} />
       <FloatingBadge text="🏠 PMAY ₹1.30L" className="hidden xl:flex bottom-48 left-20 text-accent" delay={2} />
-      <FloatingBadge text="📱 WhatsApp Bot" className="hidden xl:flex bottom-40 right-20 text-secondary" delay={2.4} />
 
-      {/* Main content */}
-      <div className="relative z-10 text-center max-w-5xl mx-auto px-4">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-8 border"
-          style={{ background: 'rgba(107, 63, 160, 0.15)', borderColor: 'rgba(107, 63, 160, 0.4)', color: '#C9A9E9' }}
-        >
-          <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-          🏆 Redrob Ideathon 2026 — Track 3: AI for Social Impact
-        </motion.div>
-
-        {/* Word-by-word headline */}
-        <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6 text-balance">
-          {WORDS_HEADLINE.map((word, i) => (
-            <motion.span
-              key={i}
-              className={`inline-block mr-3 mb-2 ${
-                word === '₹2.6' ? 'gradient-text-secondary rupee text-6xl md:text-8xl' :
-                word === 'Unclaimed' ? 'gradient-text-primary' :
-                word === 'Year.' ? 'text-accent' : 'text-white'
-              }`}
-              initial={{ opacity: 0, y: 40, rotateX: -40 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ delay: 0.3 + i * 0.12, duration: 0.6, ease: 'easeOut' }}
+      {/* Main content grid */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Text & Actions */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
+            {/* Ideathon Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border"
+              style={{ background: 'rgba(124, 58, 237, 0.12)', borderColor: 'rgba(124, 58, 237, 0.3)', color: '#DDD6FE' }}
             >
-              {word}
-            </motion.span>
-          ))}
-        </h1>
+              <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+              🏆 Redrob Ideathon 2026 — Track 3: AI for Social Impact
+            </motion.div>
 
-        {/* Subheading */}
-        <motion.p
-          className="text-xl md:text-2xl text-white/60 mb-4 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
-        >
-          BharatSahayak makes sure{' '}
-          <span className="text-white font-semibold">yours reaches you.</span>
-        </motion.p>
+            {/* Word-by-word headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-balance">
+              {WORDS_HEADLINE.map((word, i) => (
+                <motion.span
+                  key={i}
+                  className={`inline-block mr-2.5 sm:mr-3 mb-1.5 sm:mb-2 ${
+                    word === '₹2.6' ? 'gradient-text-secondary rupee text-5xl sm:text-6xl md:text-7xl lg:text-8xl' :
+                    word === 'Unclaimed' ? 'gradient-text-primary' :
+                    word === 'Year.' ? 'text-accent' : 'text-white'
+                  }`}
+                  initial={{ opacity: 0, y: 40, rotateX: -40 }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.6, ease: 'easeOut' }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </h1>
 
-        {/* Hindi subtitle */}
-        <motion.p
-          className="hindi text-lg text-white/35 mb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
-        >
-          AI जो सरकारी योजनाएं आपके दरवाज़े तक पहुंचाए — बिना इंटरनेट, बिना झंझट
-        </motion.p>
+            {/* Subheading */}
+            <motion.p
+              className="text-lg sm:text-xl md:text-2xl text-white/70 leading-relaxed max-w-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+            >
+              BharatSahayak makes sure{' '}
+              <span className="text-white font-semibold">yours reaches you.</span>
+            </motion.p>
 
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8 }}
-        >
-          <Link to="/register" className="btn-secondary text-base px-8 py-4 shadow-glow-secondary">
-            <span>Check My Benefits</span>
-            <ArrowRight size={18} />
-          </Link>
-          <Link to="/journey" className="btn-ghost text-base px-8 py-4">
-            <Play size={16} className="fill-current" />
-            <span>See How It Works</span>
-          </Link>
-        </motion.div>
+            {/* Hindi subtitle */}
+            <motion.p
+              className="hindi text-base sm:text-lg text-white/45 max-w-xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3 }}
+            >
+              AI जो सरकारी योजनाएं आपके दरवाज़े तक पहुंचाए — बिना इंटरनेट, बिना झंझट
+            </motion.p>
 
-        {/* Trust stat strip */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-8 text-sm text-white/40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.1 }}
-        >
-          {[
-            { value: '1000+', label: 'Schemes Mapped' },
-            { value: '80 Cr', label: 'Eligible Indians' },
-            { value: '₹43,000', label: 'Avg Unclaimed/Person' },
-            { value: '<5%', label: 'Current Awareness' },
-          ].map(({ value, label }) => (
-            <div key={label} className="flex flex-col items-center">
-              <span className="text-white font-bold text-lg">{value}</span>
-              <span className="text-xs">{label}</span>
-            </div>
-          ))}
-        </motion.div>
+            {/* CTAs */}
+            <motion.div
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5 }}
+            >
+              <Link to="/register" className="btn-secondary text-base px-8 py-4 shadow-glow-secondary justify-center text-center">
+                <span>Check My Benefits</span>
+                <ArrowRight size={18} />
+              </Link>
+              <Link to="/journey" className="btn-ghost text-base px-8 py-4 justify-center text-center">
+                <Play size={16} className="fill-current" />
+                <span>See How It Works</span>
+              </Link>
+            </motion.div>
+
+            {/* Trust stat strip */}
+            <motion.div
+              className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-6 text-sm text-white/40 border-t border-white/5 w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8 }}
+            >
+              {[
+                { value: '1000+', label: 'Schemes Mapped' },
+                { value: '80 Cr', label: 'Eligible Indians' },
+                { value: '₹43,000', label: 'Avg Unclaimed/Person' },
+                { value: '<5%', label: 'Current Awareness' },
+              ].map(({ value, label }) => (
+                <div key={label} className="flex flex-col">
+                  <span className="text-white font-black text-lg">{value}</span>
+                  <span className="text-xs">{label}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Column: Live Mockup */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end w-full">
+            <motion.div
+              className="relative w-full max-w-[340px] sm:max-w-[360px]"
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: 'easeOut' }}
+            >
+              {/* Outer decorative phone shell glow */}
+              <div className="absolute inset-0 rounded-[36px] bg-primary/20 blur-xl -z-10" />
+              
+              <div className="rounded-[36px] border border-white/10 p-2.5 bg-black shadow-glow-primary/20">
+                <WhatsAppDemo interactive={false} />
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-white/30"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.5, repeat: Infinity }}
       >
-        <span className="text-xs uppercase tracking-widest">Explore</span>
-        <ChevronDown size={18} />
+        <span className="text-[10px] uppercase tracking-widest">Explore</span>
+        <ChevronDown size={14} />
       </motion.div>
     </section>
   );

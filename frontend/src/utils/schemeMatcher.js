@@ -204,7 +204,7 @@ export function computeWallet(matchedSchemes) {
     count: eligible.length,
     chartData: [
       { name: 'Received',  value: received,  color: '#1D9E75' },
-      { name: 'Available', value: available, color: '#6B3FA0' },
+      { name: 'Available', value: available, color: '#7C3AED' },
       { name: 'Pending',   value: pending,   color: '#E65100' },
       { name: 'Future',    value: future,    color: '#2196F3' },
     ],
@@ -245,7 +245,7 @@ export function generateTimeline(profile, matchedSchemes) {
       age,
       event: `${s.name} — ${s.benefitLabel}`,
       type: 'current',
-      color: s.categoryColor || '#6B3FA0',
+      color: s.categoryColor || '#7C3AED',
       source: s.officialPortal?.replace('https://', '') || '',
     });
   });

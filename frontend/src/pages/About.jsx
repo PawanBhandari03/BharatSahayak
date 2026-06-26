@@ -17,7 +17,7 @@ const TEAM = [
     username: 'PawanBhandari03',
     avatar: 'P',
     emoji: '👨‍💻',
-    color: '#6B3FA0',
+    color: '#7C3AED',
     bg: 'from-purple-900 to-purple-700',
     skills: ['React', 'Node.js', 'Claude API', 'MongoDB'],
     contribution: 'Built the AI scheme matching engine, WhatsApp integration, and Benefit Wallet.',
@@ -52,7 +52,7 @@ const TECH_STACK = [
 
 const PROBLEM_STATS = [
   { value: 2.6, suffix: 'L Cr', label: 'Unclaimed annually', color: '#E65100' },
-  { value: 800, suffix: 'M+', label: 'Eligible Indians', color: '#6B3FA0' },
+  { value: 800, suffix: 'M+', label: 'Eligible Indians', color: '#7C3AED' },
   { value: 5, prefix: '<', suffix: '%', label: 'Awareness rate', color: '#2196F3' },
   { value: 43000, prefix: '₹', label: 'Avg per person', color: '#1D9E75' },
 ];
@@ -66,7 +66,7 @@ function TeamCard({ member, index }) {
       transition={{ delay: index * 0.2, duration: 0.7 }}
       whileHover={{ y: -6 }}
       className="rounded-2xl border overflow-hidden group"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Cover */}
       <div className={`h-32 bg-gradient-to-br ${member.bg} relative flex items-center justify-center`}>
@@ -79,7 +79,7 @@ function TeamCard({ member, index }) {
         {/* Avatar */}
         <div
           className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white border-4 mb-4"
-          style={{ background: member.color, borderColor: '#1A1A26' }}
+          style={{ background: member.color, borderColor: '#221E3D' }}
         >
           {member.avatar}
         </div>
@@ -249,7 +249,7 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   className="p-5 rounded-xl border"
-                  style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+                  style={{ background: '#221E3D', borderColor: '#2E2856' }}
                 >
                   <div className="text-3xl mb-3">{item.icon}</div>
                   <h4 className="text-white font-bold mb-2">{item.title}</h4>
@@ -282,7 +282,7 @@ export default function About() {
                   transition={{ delay: i * 0.08 }}
                   whileHover={{ scale: 1.03 }}
                   className="flex items-center gap-3 p-4 rounded-xl border"
-                  style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+                  style={{ background: '#221E3D', borderColor: '#2E2856' }}
                 >
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${tech.color}18` }}>
                     <Icon size={20} style={{ color: tech.color }} />

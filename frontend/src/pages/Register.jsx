@@ -152,7 +152,7 @@ function SelectField({ value, onChange, options, placeholder }) {
     >
       <option value="" disabled>{placeholder}</option>
       {options.map(opt => (
-        <option key={opt} value={opt} style={{ background: '#1A1A26', color: '#F5F4F0' }}>{opt}</option>
+        <option key={opt} value={opt} style={{ background: '#221E3D', color: '#F5F4F0' }}>{opt}</option>
       ))}
     </select>
   );
@@ -425,7 +425,7 @@ function Step4OTP({ data, setData, errors }) {
       setSent(true);
       toast.success(`OTP sent to +91-${data.mobile} (Demo: use 123456)`, {
         duration: 5000,
-        style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' }
+        style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' }
       });
     }, 1500);
   };
@@ -437,7 +437,7 @@ function Step4OTP({ data, setData, errors }) {
     setVerified(true);
     setData(p => ({ ...p, mobileVerified: true }));
     toast.success('✅ Mobile verified successfully!', {
-      style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' }
+      style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' }
     });
   };
 
@@ -477,7 +477,7 @@ function Step4OTP({ data, setData, errors }) {
           onClick={sendOTP}
           disabled={sending || !data.mobile || data.mobile.length !== 10}
           className="w-full py-3.5 rounded-xl font-semibold text-white text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-50"
-          style={{ background: 'linear-gradient(135deg, #6B3FA0, #9353D3)' }}
+          style={{ background: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }}
         >
           {sending ? <><Loader2 size={16} className="animate-spin" /> Sending OTP...</> : <><MessageSquare size={16} /> Send OTP via SMS</>}
         </button>
@@ -499,8 +499,8 @@ function Step4OTP({ data, setData, errors }) {
                   }}
                   className="w-12 h-14 text-center text-xl font-bold rounded-xl border outline-none transition-all text-white"
                   style={{
-                    background: '#12121A',
-                    borderColor: digit ? '#6B3FA0' : '#2A2A3E',
+                    background: '#1A1633',
+                    borderColor: digit ? '#7C3AED' : '#2E2856',
                   }}
                   disabled={verified}
                 />
@@ -579,7 +579,7 @@ function Step5PIN({ data, setData }) {
     setPinSet(true);
     setData(p => ({ ...p, pin: p1, pinSet: true }));
     toast.success('🔐 PIN created successfully!', {
-      style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #6B3FA0' }
+      style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #7C3AED' }
     });
   };
 
@@ -598,7 +598,7 @@ function Step5PIN({ data, setData }) {
               if (e.key === 'Backspace' && !digit && i > 0) document.getElementById(`${id}-${i - 1}`)?.focus();
             }}
             className="w-14 h-16 text-center text-2xl font-black rounded-xl border outline-none transition-all text-white"
-            style={{ background: '#12121A', borderColor: digit ? '#6B3FA0' : '#2A2A3E' }}
+            style={{ background: '#1A1633', borderColor: digit ? '#7C3AED' : '#2E2856' }}
             disabled={pinSet || disabled}
           />
         ))}
@@ -622,7 +622,7 @@ function Step5PIN({ data, setData }) {
           <PinRow arr={confirmPin} setArr={setConfirmPin} id="cpin" label="Confirm PIN" />
 
           <div className="p-3 rounded-xl mb-5 text-xs text-white/50"
-            style={{ background: 'rgba(107, 63, 160, 0.08)', border: '1px solid rgba(107, 63, 160, 0.2)' }}>
+            style={{ background: 'rgba(124, 58, 237, 0.08)', border: '1px solid rgba(124, 58, 237, 0.2)' }}>
             🔐 Your PIN is stored securely (hashed). Use it to login to your Benefit Wallet anytime from any device.
             Never share it with anyone.
           </div>
@@ -630,7 +630,7 @@ function Step5PIN({ data, setData }) {
           <button
             onClick={createPIN}
             className="w-full py-3.5 rounded-xl font-semibold text-white text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
-            style={{ background: 'linear-gradient(135deg, #6B3FA0, #9353D3)' }}
+            style={{ background: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }}
           >
             <Lock size={16} /> Create My PIN
           </button>
@@ -763,7 +763,7 @@ export default function Register() {
 
       toast.success(
         `🎉 AI found ${matched.length} schemes for you! Preparing your personalized dashboard...`,
-        { duration: 5000, style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' } }
+        { duration: 5000, style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' } }
       );
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
@@ -789,7 +789,7 @@ export default function Register() {
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(ellipse, #6B3FA0, transparent)' }} />
+          style={{ background: 'radial-gradient(ellipse, #7C3AED, transparent)' }} />
       </div>
 
       <div className="max-w-xl mx-auto relative z-10">
@@ -818,7 +818,7 @@ export default function Register() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="rounded-3xl border p-6 md:p-8"
-          style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+          style={{ background: '#221E3D', borderColor: '#2E2856' }}
         >
           <ProgressBar currentStep={step} totalSteps={5} />
 
@@ -845,7 +845,7 @@ export default function Register() {
               <button
                 onClick={nextStep}
                 className="flex items-center gap-2 px-7 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:scale-[1.02]"
-                style={{ background: 'linear-gradient(135deg, #6B3FA0, #9353D3)' }}
+                style={{ background: 'linear-gradient(135deg, #7C3AED, #A78BFA)' }}
               >
                 Continue <ChevronRight size={16} />
               </button>

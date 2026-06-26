@@ -71,7 +71,7 @@ function PersonaCard({ persona, index }) {
       transition={{ delay: index * 0.15, duration: 0.7 }}
       whileHover={{ y: -8 }}
       className="relative rounded-2xl border overflow-hidden group cursor-default"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Top gradient bar */}
       <div className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${persona.color}, ${persona.accentColor})` }} />

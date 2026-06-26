@@ -95,8 +95,8 @@ export function VerticalTimeline({ activeStep = -1 }) {
                 <motion.div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl border-2 transition-all duration-500"
                   style={{
-                    background: isActive ? `${step.color}20` : '#1A1A26',
-                    borderColor: isActive ? step.color : '#2A2A3E',
+                    background: isActive ? `${step.color}20` : '#221E3D',
+                    borderColor: isActive ? step.color : '#2E2856',
                     boxShadow: isCurrent ? `0 0 20px ${step.color}40` : 'none',
                   }}
                   animate={isCurrent ? { scale: [1, 1.05, 1] } : {}}
@@ -235,8 +235,8 @@ export function LifeTimeline({ milestones }) {
             transition={{ delay: i * 0.1 }}
             className="relative flex-shrink-0 w-52 p-4 rounded-xl border transition-all duration-300 hover:scale-105 cursor-default"
             style={{
-              background: m.type === 'current' ? `${m.color}15` : '#1A1A26',
-              borderColor: m.type === 'current' ? m.color : '#2A2A3E',
+              background: m.type === 'current' ? `${m.color}15` : '#221E3D',
+              borderColor: m.type === 'current' ? m.color : '#2E2856',
             }}
           >
             <div className="flex items-center justify-between mb-2">

@@ -7,7 +7,7 @@ import {
 
 const DEFAULT_CHART = [
   { name: 'Received',  value: 0, color: '#1D9E75' },
-  { name: 'Available', value: 0, color: '#6B3FA0' },
+  { name: 'Available', value: 0, color: '#7C3AED' },
   { name: 'Pending',   value: 0, color: '#E65100' },
   { name: 'Future',    value: 0, color: '#2196F3' },
 ];
@@ -40,7 +40,7 @@ function CustomTooltip({ active, payload }) {
     const d = payload[0];
     return (
       <div className="px-4 py-3 rounded-xl border text-sm"
-        style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}>
+        style={{ background: '#221E3D', borderColor: '#2E2856' }}>
         <div className="font-bold" style={{ color: d.payload.color }}>{d.name}</div>
         <div className="text-white">₹{d.value.toLocaleString('en-IN')}</div>
       </div>
@@ -67,11 +67,11 @@ export default function BenefitWallet({ wallet }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl border overflow-hidden"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Header */}
       <div className="px-6 py-4 border-b border-dark-border flex items-center justify-between"
-        style={{ background: '#12121A' }}>
+        style={{ background: '#1A1633' }}>
         <div>
           <h3 className="text-white font-bold text-lg">💰 Benefit Wallet</h3>
           <p className="text-white/40 text-xs">
@@ -134,7 +134,7 @@ export default function BenefitWallet({ wallet }) {
             {/* Metric cards */}
             <div className="grid grid-cols-2 gap-3">
               <MetricCard label="Received"  value={w.received}  color="#1D9E75" delay={0.1} />
-              <MetricCard label="Available" value={w.available} color="#6B3FA0" delay={0.2} />
+              <MetricCard label="Available" value={w.available} color="#7C3AED" delay={0.2} />
               <MetricCard label="Pending"   value={w.pending}   color="#E65100" delay={0.3} />
               <MetricCard label="Future"    value={w.future}    color="#2196F3" delay={0.4} />
             </div>

@@ -4,36 +4,36 @@ import { motion } from 'framer-motion';
 
 const STATS = [
   {
-    value: 1000,
-    suffix: '+',
-    label: 'Government Schemes',
-    sublabel: 'Across 30+ states and UTs',
-    color: '#6B3FA0',
-    icon: '📋',
-  },
-  {
-    value: 800,
-    suffix: 'M+',
-    label: 'Eligible Indians',
-    sublabel: 'Who deserve these benefits',
-    color: '#1D9E75',
-    icon: '🇮🇳',
-  },
-  {
-    value: 43000,
+    value: 2.6,
     prefix: '₹',
-    suffix: '',
-    label: 'Avg Unclaimed/Person',
+    suffix: 'L Cr',
+    label: 'Benefits Unclaimed',
     sublabel: 'Going unclaimed every year',
     color: '#E65100',
     icon: '💸',
   },
   {
+    value: 1000,
+    suffix: '+',
+    label: 'Schemes',
+    sublabel: 'Across Central & State Governments',
+    color: '#7C3AED',
+    icon: '📋',
+  },
+  {
+    value: 800,
+    suffix: 'M',
+    label: 'Citizens',
+    sublabel: 'Deserving direct welfare support',
+    color: '#1D9E75',
+    icon: '🇮🇳',
+  },
+  {
     value: 5,
     prefix: '<',
     suffix: '%',
-    label: 'Current Awareness',
-    sublabel: 'Of eligible citizens know their rights',
+    label: 'Awareness',
+    sublabel: 'Of citizens know their rights',
     color: '#2196F3',
     icon: '📉',
   },
@@ -50,7 +50,7 @@ function StatCard({ stat, index }) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.15, duration: 0.6 }}
       className="relative p-8 rounded-2xl border text-center group hover:scale-105 transition-transform duration-300"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Glow on hover */}
       <div
@@ -69,6 +69,7 @@ function StatCard({ stat, index }) {
             end={stat.value}
             duration={2.5}
             separator=","
+            decimals={stat.value % 1 !== 0 ? 1 : 0}
             useEasing
           />
         ) : (

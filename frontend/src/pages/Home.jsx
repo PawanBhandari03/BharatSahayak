@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Shield, Map, Smartphone, BarChart3, Star } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Map, Smartphone, BarChart3, Star, Phone, MessageSquare, CheckCircle } from 'lucide-react';
 import Hero from '../components/Hero';
 import StatsCounter from '../components/StatsCounter';
 import UserPersona from '../components/UserPersona';
@@ -10,11 +10,11 @@ import Timeline from '../components/Timeline';
 
 const FEATURES = [
   {
-    icon: '📱',
-    title: 'Zero Internet Call Bot',
-    description: 'Our AI calls your basic keypad phone in your language — Hindi, Marathi, Telugu. No smartphone, no internet needed. Works on 2G.',
-    badge: 'Works Offline',
-    color: '#25D366',
+    icon: '📅',
+    title: 'Life Timeline AI',
+    description: 'Predicts future eligibility milestones. Know at age 58 you become eligible for ₹3,000/month senior pension — plan ahead.',
+    badge: 'Predictive',
+    color: '#7C3AED',
   },
   {
     icon: '🔍',
@@ -24,18 +24,18 @@ const FEATURES = [
     color: '#E65100',
   },
   {
-    icon: '📅',
-    title: 'Life Timeline AI',
-    description: 'Predicts future eligibility milestones. Know at age 58 you become eligible for ₹3,000/month senior pension — plan ahead.',
-    badge: 'Predictive',
-    color: '#6B3FA0',
+    icon: '📞',
+    title: 'Voice Call Assistant',
+    description: 'Our AI calls your basic keypad phone in your language — Hindi, Marathi, Telugu. No smartphone, no internet needed. Works on 2G.',
+    badge: 'Works Offline',
+    color: '#2196F3',
   },
   {
-    icon: '🔐',
-    title: 'WhatsApp + Aadhaar PIN',
+    icon: '💬',
+    title: 'WhatsApp Sync',
     description: 'Your data, secured with a 4-digit PIN only you know. WhatsApp verified. Aadhaar authenticated. No middlemen.',
-    badge: 'Bank-Grade Security',
-    color: '#2196F3',
+    badge: 'Seamless Sync',
+    color: '#1D9E75',
   },
   {
     icon: '💰',
@@ -180,6 +180,191 @@ export default function Home() {
         </div>
       </section>
 
+      {/* No Smartphone Section */}
+      <section className="py-24 px-4 relative overflow-hidden" style={{ background: '#1A1633' }}>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #7C3AED, transparent)' }} />
+        </div>
+
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left: 4-step process */}
+            <div className="lg:col-span-7 space-y-6">
+              <motion.p className="section-label" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                100% Offline Access
+              </motion.p>
+              <motion.h2
+                className="text-3xl md:text-5xl font-black text-white leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                No Smartphone? <span className="text-accent">No Problem.</span>
+              </motion.h2>
+              <motion.p
+                className="text-white/65 text-lg leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                We believe that public welfare shouldn't require expensive technology. You can access all AI capabilities of BharatSahayak by dialing a toll-free number from any basic keypad phone.
+              </motion.p>
+
+              {/* 4-step process timeline */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                {[
+                  { step: '1', title: 'Dial Toll-Free', desc: 'Call 1800-203-5000 from your phone.' },
+                  { step: '2', title: 'Choose Language', desc: 'Listen & interact in Hindi or Marathi.' },
+                  { step: '3', title: 'Speak to AI', desc: 'Answer simple profile questions.' },
+                  { step: '4', title: 'Get SMS Alerts', desc: 'Receive schemes checklist via SMS.' }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="p-5 rounded-2xl border flex items-start gap-4"
+                    style={{ background: '#221E3D', borderColor: '#2E2856' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.08 }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold flex-shrink-0">
+                      {item.step}
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-sm mb-1">{item.title}</h4>
+                      <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Phone & Success Story */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="p-8 rounded-3xl border w-full max-w-[360px] text-center space-y-6 shadow-glow-accent/5"
+                style={{ background: '#221E3D', borderColor: '#2E2856' }}
+              >
+                <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto text-accent shadow-glow-accent/25">
+                  <Phone size={28} />
+                </div>
+                
+                <div>
+                  <p className="text-white/40 text-xs uppercase tracking-wider mb-1">Toll-Free Helpline</p>
+                  <a href="tel:18002035000" className="text-2xl sm:text-3xl font-black text-white hover:text-accent transition-colors">
+                    1800-203-5000
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-xl text-left bg-dark/30 border border-dark-border/50 text-xs space-y-2">
+                  <span className="text-yellow-400 font-bold">⭐ SUCCESS STORY</span>
+                  <p className="text-white/70 leading-relaxed italic">
+                    "Ramdas Patil, 68, from a remote village in Maharashtra recovered ₹28,000 in unclaimed agricultural subsidies using just his basic Nokia keypad phone."
+                  </p>
+                </div>
+
+                <a href="tel:18002035000" className="btn-primary w-full justify-center" style={{ background: 'linear-gradient(135deg, #E65100, #F7841E)', boxShadow: '0 4px 16px rgba(230, 81, 0, 0.35)' }}>
+                  <Phone size={15} />
+                  Call Helpline Now
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WhatsApp Integration Section */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left: Chat info */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-start">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-8 rounded-3xl border text-center space-y-6 w-full max-w-[340px]"
+                style={{ background: '#221E3D', borderColor: '#2E2856' }}
+              >
+                {/* QR Code Placeholder */}
+                <div className="p-4 bg-white rounded-2xl inline-block mx-auto">
+                  <div className="w-40 h-40 flex items-center justify-center relative bg-white border border-gray-200 rounded-lg">
+                    {/* Fake QR pattern using CSS */}
+                    <div className="absolute inset-2 bg-slate-900 rounded-md" style={{
+                      backgroundImage: 'radial-gradient(#fff 25%, transparent 25%), radial-gradient(#fff 25%, transparent 25%)',
+                      backgroundSize: '8px 8px',
+                      backgroundPosition: '0 0, 4px 4px'
+                    }} />
+                    {/* Inner QR center brand */}
+                    <div className="absolute w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 z-10 text-xl font-bold">
+                      💬
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-white/40 text-xs max-w-xs mx-auto leading-relaxed">
+                  Scan QR code with your mobile camera to chat with BharatSahayak AI immediately.
+                </p>
+
+                <a href="https://wa.me/911234567890?text=HELLO" target="_blank" rel="noreferrer" className="btn-secondary w-full justify-center">
+                  <MessageSquare size={16} />
+                  Chat on WhatsApp
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Right: Info steps */}
+            <div className="lg:col-span-7 space-y-6">
+              <motion.p className="section-label" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                WhatsApp Sync
+              </motion.p>
+              <motion.h2
+                className="text-3xl md:text-5xl font-black text-white leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                Get Schemes Directly on <span className="gradient-text-secondary">WhatsApp</span>
+              </motion.h2>
+              <motion.p
+                className="text-white/60 text-lg leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                No websites to navigate, no complex credentials. Our certified WhatsApp AI Bot lets you manage your benefits through simple chat messages.
+              </motion.p>
+
+              <div className="space-y-4 pt-4">
+                {[
+                  { step: '1', text: 'Scan the QR code or click the button to launch WhatsApp.' },
+                  { step: '2', text: 'Send a message saying "HELLO" to start a secure chat session.' },
+                  { step: '3', text: 'Receive your personalized document checklist and apply with one click.' }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="flex items-start gap-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-secondary/20 text-secondary flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+                      {item.step}
+                    </div>
+                    <p className="text-white/70 text-sm leading-relaxed">{item.text}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it works — Timeline */}
       <Timeline />
 
@@ -191,7 +376,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="relative rounded-3xl p-10 text-center overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, rgba(107, 63, 160, 0.15), rgba(29, 158, 117, 0.1))', border: '1px solid rgba(107, 63, 160, 0.3)' }}
+            style={{ background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(29, 158, 117, 0.1))', border: '1px solid rgba(124, 58, 237, 0.3)' }}
           >
             {/* Background shimmer */}
             <div className="absolute inset-0 rounded-3xl"

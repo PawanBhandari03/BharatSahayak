@@ -55,10 +55,10 @@ function ProfileCard({ user, wallet }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl border overflow-hidden"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       {/* Cover */}
-      <div className="h-24 relative" style={{ background: 'linear-gradient(135deg, #6B3FA0, #1D9E75)' }}>
+      <div className="h-24 relative" style={{ background: 'linear-gradient(135deg, #7C3AED, #1D9E75)' }}>
         <div className="absolute inset-0 opacity-20"
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")" }} />
       </div>
@@ -66,7 +66,7 @@ function ProfileCard({ user, wallet }) {
       <div className="px-6 pb-6 -mt-8">
         {/* Avatar */}
         <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-700 to-purple-500 flex items-center justify-center text-2xl border-4 mb-4"
-          style={{ borderColor: '#1A1A26' }}>
+          style={{ borderColor: '#221E3D' }}>
           {avatar}
         </div>
 
@@ -122,8 +122,8 @@ function DeadlineCard({ item, index }) {
       transition={{ delay: index * 0.08 }}
       className="flex items-center gap-4 p-4 rounded-xl border"
       style={{
-        background: item.urgent ? 'rgba(230, 81, 0, 0.06)' : '#1A1A26',
-        borderColor: item.urgent ? 'rgba(230, 81, 0, 0.3)' : '#2A2A3E',
+        background: item.urgent ? 'rgba(230, 81, 0, 0.06)' : '#221E3D',
+        borderColor: item.urgent ? 'rgba(230, 81, 0, 0.3)' : '#2E2856',
       }}
     >
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${item.urgent ? 'bg-accent/20' : 'bg-primary/10'}`}>
@@ -147,7 +147,7 @@ function VoiceCallCard({ user }) {
   const handleSchedule = () => {
     toast.success(`📞 Voice call scheduled for your registered number +91-${user.mobile}!`, {
       duration: 4000,
-      style: { background: '#1A1A26', color: '#F5F4F0', border: '1px solid #1D9E75' }
+      style: { background: '#221E3D', color: '#F5F4F0', border: '1px solid #1D9E75' }
     });
   };
 
@@ -156,7 +156,7 @@ function VoiceCallCard({ user }) {
       initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
       className="rounded-2xl border p-5"
-      style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}
+      style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
       <div className="flex items-center gap-3 mb-4">
         <div className="w-12 h-12 rounded-xl bg-secondary/15 flex items-center justify-center">
@@ -263,6 +263,29 @@ export default function Dashboard() {
           </button>
         </motion.div>
 
+        {/* Alert Banner */}
+        {wallet.total > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 p-5 rounded-2xl border flex items-center justify-between gap-4"
+            style={{ background: 'rgba(230, 81, 0, 0.08)', borderColor: 'rgba(230, 81, 0, 0.25)' }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-xl shrink-0">🔔</span>
+              <div className="text-sm">
+                <span className="text-white font-bold">Unclaimed benefits detected!</span>{' '}
+                <span className="text-white/60">Based on your profile, you have up to </span>
+                <span className="text-accent font-extrabold rupee">₹{wallet.total?.toLocaleString('en-IN')}</span>{' '}
+                <span className="text-white/60">unclaimed in eligible schemes. Arrange your documents soon.</span>
+              </div>
+            </div>
+            <Link to="/schemes" className="hidden sm:inline-flex text-xs font-bold text-accent hover:underline shrink-0">
+              View Matches →
+            </Link>
+          </motion.div>
+        )}
+
         {/* Main grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* LEFT */}
@@ -272,7 +295,7 @@ export default function Dashboard() {
 
             {/* Deadlines */}
             {deadlines.length > 0 && (
-              <div className="rounded-2xl border p-5" style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}>
+              <div className="rounded-2xl border p-5" style={{ background: '#221E3D', borderColor: '#2E2856' }}>
                 <h3 className="text-white font-bold mb-4 flex items-center gap-2">
                   <Bell size={16} className="text-accent" />
                   Upcoming Deadlines
@@ -288,7 +311,7 @@ export default function Dashboard() {
             {/* Ineligible count */}
             {matchedSchemes.filter(s => !s.isMatched).length > 0 && (
               <div className="rounded-2xl border p-4 text-center"
-                style={{ background: '#12121A', borderColor: '#2A2A3E' }}>
+                style={{ background: '#1A1633', borderColor: '#2E2856' }}>
                 <p className="text-white/40 text-xs mb-1">
                   {matchedSchemes.filter(s => !s.isMatched).length} schemes — currently ineligible
                 </p>
@@ -305,7 +328,7 @@ export default function Dashboard() {
               <motion.div 
                 initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
                 className="rounded-2xl border p-6 relative overflow-hidden"
-                style={{ background: 'linear-gradient(to right, rgba(107, 63, 160, 0.15), rgba(29, 158, 117, 0.1))', borderColor: 'rgba(107, 63, 160, 0.3)' }}
+                style={{ background: 'linear-gradient(to right, rgba(124, 58, 237, 0.15), rgba(29, 158, 117, 0.1))', borderColor: 'rgba(124, 58, 237, 0.3)' }}
               >
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent" />
                 
@@ -314,7 +337,7 @@ export default function Dashboard() {
                   AI Recommendations
                 </h3>
                 
-                <p className="text-white/80 italic mb-6 border-l-2 border-primary/50 pl-3">
+                <p className="text-white/80 italic mb-6 border-l-2 border-primary/50 pl-3 text-sm leading-relaxed">
                   "{aiRecommendations.personalizedMessage}"
                 </p>
 
@@ -374,7 +397,7 @@ export default function Dashboard() {
 
               {eligibleSchemes.length === 0 ? (
                 <div className="p-8 rounded-2xl border text-center"
-                  style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}>
+                  style={{ background: '#221E3D', borderColor: '#2E2856' }}>
                   <div className="text-4xl mb-3">🔍</div>
                   <p className="text-white font-semibold mb-1">No exact matches found</p>
                   <p className="text-white/40 text-sm">
@@ -397,7 +420,7 @@ export default function Dashboard() {
             {/* Life Timeline */}
             {timeline.length > 0 && (
               <div className="rounded-2xl border p-5 overflow-hidden"
-                style={{ background: '#1A1A26', borderColor: '#2A2A3E' }}>
+                style={{ background: '#221E3D', borderColor: '#2E2856' }}>
                 <h3 className="text-white font-bold mb-1 flex items-center gap-2">
                   🗓 Your Benefits Timeline
                 </h3>

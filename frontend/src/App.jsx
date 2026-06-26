@@ -44,17 +44,10 @@ export default function App() {
 
   // Apply dark/light mode
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      document.body.style.backgroundColor = '#0A0A0F';
-      document.body.style.color = '#F5F4F0';
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      document.body.style.backgroundColor = '#FFFFFF';
-      document.body.style.color = '#1A1917';
-    }
+    document.documentElement.classList.add('dark');
+    document.documentElement.classList.remove('light');
+    document.body.style.backgroundColor = '#0D0B1F';
+    document.body.style.color = '#F5F4F0';
   }, [darkMode]);
 
   if (loading) return <Loader />;
