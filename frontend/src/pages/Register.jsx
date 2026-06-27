@@ -748,6 +748,14 @@ export default function Register() {
         matchedSchemes: matchedBackend
       });
 
+      // 3. Save user profile to Supabase (non-blocking — failure won’t stop the flow)
+      try {
+        await axios.post('http://localhost:5000/api/users/register', backendPayload);
+      } catch (dbError) {
+        // DB might not be configured yet — log and continue
+        console.warn('DB registration skipped:', dbError?.response?.data?.message || dbError.message);
+      }
+
       // Combine with UI data structure
       const fullSchemes = SCHEMES_DATA.map(s => {
         const isMatched = matchedBackend.some(b => b.id === s.id);
@@ -769,7 +777,8 @@ export default function Register() {
     } catch (error) {
       console.error(error);
       setSubmitting(false);
-      toast.error('Something went wrong connecting to the AI backend. Make sure the server is running on port 5000.', { duration: 6000 });
+      const msg = error?.response?.data?.message || 'Something went wrong connecting to the AI backend. Make sure the server is running on port 5000.';
+      toast.error(msg, { duration: 6000 });
     }
   };
 
