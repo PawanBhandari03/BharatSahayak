@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const Anthropic = require('@anthropic-ai/sdk');
+const { Mistral } = require('@mistralai/mistralai');
+const supabase = require('../config/supabase');
 
 // Path to schemes.json
 const schemesFilePath = path.join(__dirname, '../../scheme-data/schemes.json');
@@ -62,13 +63,11 @@ const aiRecommend = async (req, res) => {
       return res.status(400).json({ message: 'Missing profile or matchedSchemes' });
     }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
-      return res.status(500).json({ message: 'ANTHROPIC_API_KEY is not configured in .env' });
+    if (!process.env.MISTRAL_API_KEY) {
+      return res.status(500).json({ message: 'MISTRAL_API_KEY is not configured in .env' });
     }
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    });
+    const mistral = new Mistral({ apiKey: process.env.MISTRAL_API_KEY });
 
     const systemPrompt = `You are BharatSahayak AI, an expert advisor for Indian government schemes.
 Given a user profile and a list of schemes they are eligible for, you must provide:
@@ -87,22 +86,78 @@ You must respond ONLY with a valid JSON object in the following exact format wit
 
     const userMessage = `User Profile:\n${JSON.stringify(profile, null, 2)}\n\nEligible Schemes:\n${JSON.stringify(matchedSchemes.map(s => ({ id: s.id, name: s.name, amount: s.amount, docs: s.documentsRequired })), null, 2)}`;
 
-    const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-6", // Requested model
-      max_tokens: 1000,
-      system: systemPrompt,
+    const response = await mistral.chat.complete({
+      model: 'mistral-large-latest',
       messages: [
-        { role: "user", content: userMessage }
-      ]
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMessage },
+      ],
+      responseFormat: { type: 'json_object' },
+      maxTokens: 1000,
     });
 
-    const jsonText = response.content[0].text;
+    const jsonText = response.choices[0].message.content;
     const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      throw new Error("Failed to parse AI response as JSON");
+      throw new Error('Failed to parse AI response as JSON');
     }
 
     const parsedData = JSON.parse(jsonMatch[0]);
+
+    // ── Supabase persistence (non-blocking – errors are logged but never break response) ──
+    try {
+      if (supabase) {
+        // 1. Upsert user profile by mobile to avoid duplicates
+        const profilePayload = {
+          name:           profile.name          || null,
+          age:            profile.age !== undefined ? Number(profile.age) : null,
+          gender:         profile.gender         || null,
+          marital_status: profile.maritalStatus  || profile.marital_status  || null,
+          category:       profile.category       || null,
+          state:          profile.state          || null,
+          district:       profile.district       || null,
+          occupation:     profile.occupation     || null,
+          annual_income:  profile.annualIncome !== undefined
+                            ? Number(profile.annualIncome)
+                            : (profile.annual_income !== undefined ? Number(profile.annual_income) : null),
+          mobile:         profile.mobile         || null,
+        };
+
+        const { data: upsertedProfile, error: profileError } = await supabase
+          .from('profiles')
+          .upsert(profilePayload, { onConflict: 'mobile', ignoreDuplicates: false })
+          .select('id')
+          .single();
+
+        if (profileError) {
+          console.error('⚠️  Supabase profile upsert error:', profileError.message);
+        } else {
+          const profileId = upsertedProfile?.id;
+
+          // 2. Insert recommendation linked to profile
+          const { error: recError } = await supabase
+            .from('user_recommendations')
+            .insert({
+              profile_id:         profileId,
+              matched_schemes:    matchedSchemes,
+              ai_recommendation:  parsedData,
+            });
+
+          if (recError) {
+            console.error('⚠️  Supabase recommendation insert error:', recError.message);
+          } else {
+            console.log(`✅  Saved profile (id: ${profileId}) & recommendation to Supabase`);
+          }
+        }
+      } else {
+        console.warn('⚠️  Supabase client is null – skipping DB save');
+      }
+    } catch (dbErr) {
+      // DB errors must never break the API response
+      console.error('⚠️  Supabase persistence error (non-fatal):', dbErr.message);
+    }
+    // ── End Supabase persistence ──
+
     res.json(parsedData);
   } catch (error) {
     console.error('Error generating AI recommendation:', error);
