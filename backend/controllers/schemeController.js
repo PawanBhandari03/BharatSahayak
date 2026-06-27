@@ -2,10 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { Mistral } = require('@mistralai/mistralai');
 const supabase = require('../config/supabase');
-<<<<<<< HEAD
-=======
 const { randomUUID } = require('crypto');
->>>>>>> rahul/frontend
 
 // Path to schemes.json
 const schemesFilePath = path.join(__dirname, '../../scheme-data/schemes.json');
@@ -79,51 +76,71 @@ const mapProfileToDb = (p) => {
 };
 
 const saveToSupabase = async (profile, matchedSchemes, aiResponse) => {
-  if (!supabase) return;
+  if (!supabase) {
+    console.warn('⚠️  saveToSupabase: Supabase client is null — skipping');
+    return;
+  }
   try {
     const dbProfile = mapProfileToDb(profile);
     let profileId;
 
+    console.log('📥 saveToSupabase: saving profile for mobile:', dbProfile.mobile || '(no mobile)');
+
     if (dbProfile.mobile) {
-      const { data: existingProfile } = await supabase
+      const { data: existingProfile, error: fetchErr } = await supabase
         .from('profiles')
         .select('id')
         .eq('mobile', dbProfile.mobile)
         .maybeSingle();
-      
+
+      if (fetchErr) console.error('⚠️  saveToSupabase fetch error:', fetchErr.message);
+
       if (existingProfile) {
         profileId = existingProfile.id;
+        console.log('🔄 saveToSupabase: existing profile found, id:', profileId);
         // Clean up the random UUID since we are using existing
         delete dbProfile.id;
-        await supabase.from('profiles').update(dbProfile).eq('id', profileId);
+        const { error: updateErr } = await supabase.from('profiles').update(dbProfile).eq('id', profileId);
+        if (updateErr) console.error('⚠️  saveToSupabase update error:', updateErr.message);
       }
     }
 
     if (!profileId) {
+      console.log('➕ saveToSupabase: inserting new profile...');
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .insert([dbProfile])
         .select();
       if (!profileError && profileData && profileData.length > 0) {
         profileId = profileData[0].id;
+        console.log('✅ saveToSupabase: new profile inserted, id:', profileId);
       } else if (profileError) {
-        console.error('Supabase profile insert error:', profileError.message);
+        console.error('⚠️  saveToSupabase profile insert error:', profileError.message, profileError.details);
       }
     }
 
     if (profileId) {
-      await supabase
+      console.log('📤 saveToSupabase: inserting recommendation for profile_id:', profileId);
+      const { error: recErr } = await supabase
         .from('user_recommendations')
         .insert([{
           profile_id: profileId,
           matched_schemes: matchedSchemes,
           ai_response: aiResponse
         }]);
+      if (recErr) {
+        console.error('⚠️  saveToSupabase recommendation insert error:', recErr.message, recErr.details);
+      } else {
+        console.log('✅ saveToSupabase: recommendation saved successfully!');
+      }
+    } else {
+      console.warn('⚠️  saveToSupabase: no profileId resolved — recommendation not saved');
     }
   } catch (dbError) {
-    console.error('Silent DB Error:', dbError.message);
+    console.error('⚠️  saveToSupabase caught exception:', dbError.message);
   }
 };
+
 
 const matchSchemes = (req, res) => {
   try {
@@ -175,31 +192,24 @@ const matchSchemes = (req, res) => {
 };
 
 const aiRecommend = async (req, res) => {
+  const { profile, matchedSchemes } = req.body;
+
+  if (!profile || !matchedSchemes) {
+    return res.status(400).json({ message: 'Missing profile or matchedSchemes' });
+  }
+
+  // ── Always persist profile + matched schemes to Supabase, regardless of AI outcome ──
+  saveToSupabase(profile, matchedSchemes, null).catch((e) =>
+    console.error('⚠️  Supabase pre-save error:', e.message)
+  );
+
+  // ── If no Mistral key configured, return a structured fallback immediately ──
+  if (!process.env.MISTRAL_API_KEY) {
+    console.warn('⚠️  MISTRAL_API_KEY not set — returning fallback recommendation');
+    return res.json(buildFallback(matchedSchemes));
+  }
+
   try {
-    const { profile, matchedSchemes } = req.body;
-
-    if (!profile || !matchedSchemes) {
-      return res.status(400).json({ message: 'Missing profile or matchedSchemes' });
-    }
-
-    if (!process.env.MISTRAL_API_KEY) {
-<<<<<<< HEAD
-      return res.status(500).json({ message: 'MISTRAL_API_KEY is not configured in .env' });
-    }
-
-    const mistral = new Mistral({ apiKey: process.env.MISTRAL_API_KEY });
-
-=======
-      console.warn('[WARNING] MISTRAL_API_KEY is not set in backend/.env. Falling back to dynamic mock recommendations.');
-      const mockData = generateMockRecommendation(profile, matchedSchemes);
-
-      // Save to Supabase (silently)
-      await saveToSupabase(profile, matchedSchemes, mockData);
-
-      return res.json(mockData);
-    }
-
->>>>>>> rahul/frontend
     const systemPrompt = `You are BharatSahayak AI, an expert advisor for Indian government schemes.
 Given a user profile and a list of schemes they are eligible for, you must provide:
 1. The top 3 priority schemes (from the provided list) that give the highest impact/value to this user, along with a short reason why.
@@ -217,7 +227,8 @@ You must respond ONLY with a valid JSON object in the following exact format wit
 
     const mistral = new Mistral({ apiKey: process.env.MISTRAL_API_KEY });
 
-<<<<<<< HEAD
+    const userMessage = `User Profile:\n${JSON.stringify(profile, null, 2)}\n\nEligible Schemes:\n${JSON.stringify(matchedSchemes.map(s => ({ id: s.id, name: s.name, amount: s.amount, docs: s.documentsRequired })), null, 2)}`;
+
     const response = await mistral.chat.complete({
       model: 'mistral-large-latest',
       messages: [
@@ -236,91 +247,37 @@ You must respond ONLY with a valid JSON object in the following exact format wit
 
     const parsedData = JSON.parse(jsonMatch[0]);
 
-    // ── Supabase persistence (non-blocking – errors are logged but never break response) ──
-    try {
-      if (supabase) {
-        // 1. Upsert user profile by mobile to avoid duplicates
-        const profilePayload = {
-          name:           profile.name          || null,
-          age:            profile.age !== undefined ? Number(profile.age) : null,
-          gender:         profile.gender         || null,
-          marital_status: profile.maritalStatus  || profile.marital_status  || null,
-          category:       profile.category       || null,
-          state:          profile.state          || null,
-          district:       profile.district       || null,
-          occupation:     profile.occupation     || null,
-          annual_income:  profile.annualIncome !== undefined
-                            ? Number(profile.annualIncome)
-                            : (profile.annual_income !== undefined ? Number(profile.annual_income) : null),
-          mobile:         profile.mobile         || null,
-        };
-
-        const { data: upsertedProfile, error: profileError } = await supabase
-          .from('profiles')
-          .upsert(profilePayload, { onConflict: 'mobile', ignoreDuplicates: false })
-          .select('id')
-          .single();
-
-        if (profileError) {
-          console.error('⚠️  Supabase profile upsert error:', profileError.message);
-        } else {
-          const profileId = upsertedProfile?.id;
-
-          // 2. Insert recommendation linked to profile
-          const { error: recError } = await supabase
-            .from('user_recommendations')
-            .insert({
-              profile_id:         profileId,
-              matched_schemes:    matchedSchemes,
-              ai_recommendation:  parsedData,
-            });
-
-          if (recError) {
-            console.error('⚠️  Supabase recommendation insert error:', recError.message);
-          } else {
-            console.log(`✅  Saved profile (id: ${profileId}) & recommendation to Supabase`);
-          }
-        }
-      } else {
-        console.warn('⚠️  Supabase client is null – skipping DB save');
-      }
-    } catch (dbErr) {
-      // DB errors must never break the API response
-      console.error('⚠️  Supabase persistence error (non-fatal):', dbErr.message);
-    }
-    // ── End Supabase persistence ──
-
-    res.json(parsedData);
-  } catch (error) {
-    console.error('Error generating AI recommendation:', error);
-    res.status(500).json({ message: 'Error generating AI recommendation', error: error.message });
-=======
-    const userMessage = `${systemPrompt}\n\nUser Profile:\n${JSON.stringify(profile, null, 2)}\n\nEligible Schemes:\n${JSON.stringify(matchedSchemes.map(s => ({ id: s.id, name: s.name, amount: s.amount, docs: s.documentsRequired })), null, 2)}`;
-
-    const response = await mistral.chat.complete({
-      model: 'mistral-large-latest',
-      messages: [{ role: 'user', content: userMessage }],
-      responseFormat: { type: 'json_object' }
-    });
-
-    const jsonText = response.choices[0].message.content;
-    const parsedData = JSON.parse(jsonText);
-
-    // Save to Supabase (silently)
+    // Update the Supabase record with the actual AI response
     await saveToSupabase(profile, matchedSchemes, parsedData);
 
     res.json(parsedData);
   } catch (error) {
-    console.error('Error generating AI recommendation, falling back to mock:', error.message);
-    const mockData = generateMockRecommendation(profile, matchedSchemes);
-
-    // Save to Supabase (silently) even on fallback
-    await saveToSupabase(profile, matchedSchemes, mockData);
-
-    res.json(mockData);
->>>>>>> rahul/frontend
+    console.error('Error generating AI recommendation — returning fallback:', error.message);
+    // Still return valid data to the frontend using the fallback
+    res.json(buildFallback(matchedSchemes));
   }
 };
+
+/**
+ * Builds a structured fallback recommendation from the matched schemes list
+ * so the frontend always gets a valid response even when Mistral is unavailable.
+ */
+const buildFallback = (matchedSchemes) => {
+  const top = (matchedSchemes || []).slice(0, 3);
+  return {
+    topSchemes: top.map((s) => ({
+      id: s.id,
+      name: s.name,
+      reason: 'Recommended based on your profile eligibility.',
+    })),
+    personalizedMessage:
+      'Aapke profile ke aadhar par yeh yojanayen aapke liye sabse upyogi hain. In yojanaon ka labh zaroor uthayein! (Based on your profile, these schemes are most beneficial for you. Do avail them!)',
+    documentsToArrange: [
+      ...new Set(top.flatMap((s) => s.documentsRequired || [])),
+    ].slice(0, 8),
+  };
+};
+
 
 module.exports = {
   matchSchemes,
