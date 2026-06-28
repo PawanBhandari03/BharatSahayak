@@ -117,10 +117,10 @@ export default function Hero() {
       {/* India map background */}
       <IndiaMapSVG />
 
-      {/* Floating badges */}
-      <FloatingBadge text="✅ PM-KISAN ₹6,000" className="hidden xl:flex top-32 left-16 text-secondary" delay={1.2} />
-      <FloatingBadge text="🏥 Ayushman ₹5L" className="hidden xl:flex top-48 right-[32rem] text-blue-400" delay={1.6} />
-      <FloatingBadge text="🏠 PMAY ₹1.30L" className="hidden xl:flex bottom-48 left-20 text-accent" delay={2} />
+      {/* Floating badges (positioned safely in outer margins to prevent overlap with content) */}
+      <FloatingBadge text="✅ PM-KISAN ₹6,000" className="hidden xl:flex top-28 left-4 2xl:left-12 text-secondary pointer-events-none z-0" delay={1.2} />
+      <FloatingBadge text="🏥 Ayushman ₹5L" className="hidden xl:flex top-28 right-4 2xl:right-12 text-blue-400 pointer-events-none z-0" delay={1.6} />
+      <FloatingBadge text="🏠 PMAY ₹1.30L" className="hidden xl:flex bottom-12 left-4 2xl:left-12 text-accent pointer-events-none z-0" delay={2} />
 
       {/* Main content grid */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">

@@ -442,12 +442,22 @@ function Step4OTP({ data, setData, errors }) {
   };
 
   const handleOtpChange = (index, value) => {
-    if (!/^\d?$/.test(value)) return;
+    const clean = value.replace(/\D/g, '');
     const newOtp = [...otp];
-    newOtp[index] = value;
+    if (clean.length > 1) {
+      for (let j = 0; j < 6 - index; j++) {
+        if (clean[j]) newOtp[index + j] = clean[j];
+      }
+      setOtp(newOtp);
+      const nextFocus = Math.min(index + clean.length, 5);
+      document.getElementById(`otp-${nextFocus}`)?.focus();
+      return;
+    }
+    const digit = clean.slice(-1);
+    newOtp[index] = digit;
     setOtp(newOtp);
-    if (value && index < 5) {
-      document.getElementById(`otp-${index + 1}`)?.focus();
+    if (digit && index < 5) {
+      setTimeout(() => document.getElementById(`otp-${index + 1}`)?.focus(), 10);
     }
   };
 
@@ -491,8 +501,9 @@ function Step4OTP({ data, setData, errors }) {
                   key={i}
                   id={`otp-${i}`}
                   type="text"
-                  maxLength={1}
+                  maxLength={2}
                   value={digit}
+                  onFocus={e => e.target.select()}
                   onChange={e => handleOtpChange(i, e.target.value)}
                   onKeyDown={e => {
                     if (e.key === 'Backspace' && !digit && i > 0) document.getElementById(`otp-${i - 1}`)?.focus();
@@ -564,11 +575,23 @@ function Step5PIN({ data, setData }) {
   const [pinSet, setPinSet] = useState(false);
 
   const handlePin = (arr, setArr, index, value, prefix) => {
-    if (!/^\d?$/.test(value)) return;
+    const clean = value.replace(/\D/g, '');
     const newPin = [...arr];
-    newPin[index] = value;
+    if (clean.length > 1) {
+      for (let j = 0; j < 4 - index; j++) {
+        if (clean[j]) newPin[index + j] = clean[j];
+      }
+      setArr(newPin);
+      const nextFocus = Math.min(index + clean.length, 3);
+      document.getElementById(`${prefix}-${nextFocus}`)?.focus();
+      return;
+    }
+    const digit = clean.slice(-1);
+    newPin[index] = digit;
     setArr(newPin);
-    if (value && index < 3) document.getElementById(`${prefix}-${index + 1}`)?.focus();
+    if (digit && index < 3) {
+      setTimeout(() => document.getElementById(`${prefix}-${index + 1}`)?.focus(), 10);
+    }
   };
 
   const createPIN = () => {
@@ -591,8 +614,9 @@ function Step5PIN({ data, setData }) {
             key={i}
             id={`${id}-${i}`}
             type={show ? 'text' : 'password'}
-            maxLength={1}
+            maxLength={2}
             value={digit}
+            onFocus={e => e.target.select()}
             onChange={e => handlePin(arr, setArr, i, e.target.value, id)}
             onKeyDown={e => {
               if (e.key === 'Backspace' && !digit && i > 0) document.getElementById(`${id}-${i - 1}`)?.focus();
