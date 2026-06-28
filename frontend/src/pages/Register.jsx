@@ -739,18 +739,19 @@ export default function Register() {
       };
 
       // 1. Fetch matched schemes from backend
-      const matchRes = await axios.post('http://localhost:5000/api/match-schemes', backendPayload);
+      const API_URL = import.meta.env.VITE_API_URL || 'https://bharatsahayak.onrender.com/api';
+      const matchRes = await axios.post(`${API_URL}/match-schemes`, backendPayload);
       const matchedBackend = matchRes.data;
 
       // 2. Fetch AI Recommendations from backend
-      const aiRes = await axios.post('http://localhost:5000/api/ai-recommend', {
+      const aiRes = await axios.post(`${API_URL}/ai-recommend`, {
         profile: backendPayload,
         matchedSchemes: matchedBackend
       });
 
       // 3. Save user profile to Supabase (non-blocking — failure won’t stop the flow)
       try {
-        await axios.post('http://localhost:5000/api/users/register', backendPayload);
+        await axios.post(`${API_URL}/users/register`, backendPayload);
       } catch (dbError) {
         // DB might not be configured yet — log and continue
         console.warn('DB registration skipped:', dbError?.response?.data?.message || dbError.message);
