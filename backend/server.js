@@ -23,3 +23,12 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+const https = require('https');
+setInterval(() => {
+  https.get('https://bharatsahayak.onrender.com', (res) => {
+    console.log(`[Keep-alive] Server pinged. Status: ${res.statusCode}`);
+  }).on('error', (err) => {
+    console.log(`[Keep-alive] Ping failed: ${err.message}`);
+  });
+}, 14 * 60 * 1000);
