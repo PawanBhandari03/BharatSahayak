@@ -389,37 +389,10 @@ async function saveRecommendationsToSupabase(profileId, matchedSchemes) {
   }
 }
 
+const { matchSchemes: controllerMatchSchemes, aiRecommend: controllerAiRecommend } = require('../controllers/schemeController');
+
 // Routes
-router.post('/match-schemes', async (req, res) => {
-  try {
-    const profile = req.body;
-    
-    // Save to Supabase profiles table
-    const savedProfile = await saveProfileToSupabase(profile);
-
-    const matched = matchSchemes(profile, schemesData);
-
-    // Save matched schemes to Supabase user_recommendations table
-    if (savedProfile && savedProfile.id) {
-      await saveRecommendationsToSupabase(savedProfile.id, matched);
-    }
-
-    res.json(matched);
-  } catch (err) {
-    console.error('[Match-Schemes Error]', err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.post('/ai-recommend', async (req, res) => {
-  try {
-    const { profile, matchedSchemes } = req.body;
-    const recommendations = await getAiRecommendations(profile, matchedSchemes || []);
-    res.json(recommendations);
-  } catch (err) {
-    console.error('[AI-Recommend Error]', err);
-    res.status(500).json({ error: err.message });
-  }
-});
+router.post('/match-schemes', controllerMatchSchemes);
+router.post('/ai-recommend', controllerAiRecommend);
 
 module.exports = router;

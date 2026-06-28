@@ -1,6 +1,13 @@
 const supabase = require('../config/supabase');
 const bcrypt = require('bcryptjs');
 
+const toBool = (v) => {
+  if (v === '' || v === null || v === undefined) return false;
+  if (typeof v === 'boolean') return v;
+  const str = String(v).toLowerCase().trim();
+  return str === 'true' || str === '1' || str === 'yes';
+};
+
 /**
  * POST /api/users/register
  * Saves a new user profile to Supabase after hashing the PIN.
@@ -8,6 +15,7 @@ const bcrypt = require('bcryptjs');
 const registerUser = async (req, res) => {
   try {
     if (!supabase) {
+      console.warn('⚠️ [userController] Supabase not configured in backend');
       return res.status(503).json({ message: 'Database not configured. Set SUPABASE_URL and SUPABASE_SERVICE_KEY in .env' });
     }
 
@@ -39,6 +47,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'name, mobile, and pin are required' });
     }
 
+    console.log(`📥 [userController:registerUser] Attempting registration for mobile: ${mobile}`);
+
     // Check if mobile already exists
     const { data: existing, error: checkError } = await supabase
       .from('profiles')
@@ -46,9 +56,13 @@ const registerUser = async (req, res) => {
       .eq('mobile', mobile)
       .maybeSingle();
 
-    if (checkError) throw checkError;
+    if (checkError) {
+      console.error('❌ [userController:registerUser] Error checking existing profile:', checkError.message, checkError.details || '');
+      throw checkError;
+    }
 
     if (existing) {
+      console.log(`ℹ️ [userController:registerUser] User already exists with mobile: ${mobile}`);
       return res.status(409).json({ message: 'A user with this mobile number already exists' });
     }
 
@@ -59,41 +73,46 @@ const registerUser = async (req, res) => {
     const newUser = {
       name,
       age: Number(age) || null,
-      gender,
+      gender: gender || null,
       marital_status: maritalStatus || null,
       category: category || null,
       aadhaar_last_4: aadhaarLast4 || null,
-      state,
-      district,
+      state: state || null,
+      district: district || null,
       occupation: occupation || null,
-      has_land: Boolean(hasLand),
+      has_land: toBool(hasLand),
       land_acres: Number(landAcres) || 0,
-      has_smartphone: Boolean(hasSmartphone),
+      has_smartphone: toBool(hasSmartphone),
       income_range: income || null,
       annual_income: Number(annualIncome) || null,
       family_size: Number(familySize) || 1,
       children_count: Number(children) || 0,
-      has_bpl_card: Boolean(hasBPL),
+      has_bpl_card: toBool(hasBPL),
       mobile,
-      whatsapp_opt_in: Boolean(whatsappOptIn !== false),
+      whatsapp_opt_in: whatsappOptIn !== undefined ? toBool(whatsappOptIn) : true,
       pin_hash: pinHash,
     };
 
     const { data: user, error: insertError } = await supabase
       .from('profiles')
-      .insert(newUser)
+      .insert([newUser])
       .select('id, name, mobile, state, created_at')
       .single();
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.error('❌ [userController:registerUser] Insert error:', insertError.message, insertError.details || '', insertError.hint || '');
+      throw insertError;
+    }
+
+    console.log(`✅ [userController:registerUser] User registered successfully! ID: ${user?.id}`);
 
     res.status(201).json({
       message: 'User registered successfully',
       user,
     });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ message: 'Failed to register user', error: error.message });
+    console.error('❌ [userController:registerUser] Catch exception:', error.message || error, error.details || '');
+    res.status(500).json({ message: 'Failed to register user', error: error.message || String(error) });
   }
 };
 
@@ -115,12 +134,15 @@ const getUserProfile = async (req, res) => {
       .eq('mobile', mobile)
       .maybeSingle();
 
-    if (error) throw error;
+    if (error) {
+      console.error('❌ [userController:getUserProfile] Fetch error:', error.message);
+      throw error;
+    }
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     res.json(user);
   } catch (error) {
-    console.error('Error fetching user profile:', error);
+    console.error('❌ [userController:getUserProfile] Exception:', error.message);
     res.status(500).json({ message: 'Failed to fetch user profile', error: error.message });
   }
 };
@@ -147,7 +169,10 @@ const verifyPin = async (req, res) => {
       .eq('mobile', mobile)
       .maybeSingle();
 
-    if (error) throw error;
+    if (error) {
+      console.error('❌ [userController:verifyPin] Fetch error:', error.message);
+      throw error;
+    }
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const isValid = await bcrypt.compare(String(pin), user.pin_hash);
@@ -158,7 +183,7 @@ const verifyPin = async (req, res) => {
       user: { id: user.id, name: user.name, mobile: user.mobile },
     });
   } catch (error) {
-    console.error('Error verifying PIN:', error);
+    console.error('❌ [userController:verifyPin] Exception:', error.message);
     res.status(500).json({ message: 'Failed to verify PIN', error: error.message });
   }
 };

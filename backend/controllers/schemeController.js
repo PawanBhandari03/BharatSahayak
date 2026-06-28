@@ -18,8 +18,9 @@ const mapProfileToDb = (p) => {
   const toBool = (v) => {
     if (v === '' || v === null || v === undefined) return null;
     if (typeof v === 'boolean') return v;
-    if (v === 'true' || v === '1') return true;
-    if (v === 'false' || v === '0') return false;
+    const str = String(v).toLowerCase().trim();
+    if (str === 'true' || str === '1' || str === 'yes') return true;
+    if (str === 'false' || str === '0' || str === 'no') return false;
     return null;
   };
 
@@ -51,6 +52,7 @@ const mapProfileToDb = (p) => {
   else if (p.has_smartphone !== undefined) allowed.has_smartphone = toBool(p.has_smartphone);
 
   if (p.incomeRange !== undefined) allowed.income_range = p.incomeRange || null;
+  else if (p.income !== undefined && typeof p.income === 'string') allowed.income_range = p.income || null;
   else if (p.income_range !== undefined) allowed.income_range = p.income_range || null;
 
   if (p.annualIncome !== undefined) allowed.annual_income = parseFloat(p.annualIncome) || 0;
@@ -63,7 +65,8 @@ const mapProfileToDb = (p) => {
   else if (p.children !== undefined) allowed.children_count = toNum(p.children);
   else if (p.children_count !== undefined) allowed.children_count = toNum(p.children_count);
 
-  if (p.hasBplCard !== undefined) allowed.has_bpl_card = toBool(p.hasBplCard);
+  if (p.hasBPL !== undefined) allowed.has_bpl_card = toBool(p.hasBPL);
+  else if (p.hasBplCard !== undefined) allowed.has_bpl_card = toBool(p.hasBplCard);
   else if (p.has_bpl_card !== undefined) allowed.has_bpl_card = toBool(p.has_bpl_card);
 
   if (p.whatsappOptIn !== undefined) allowed.whatsapp_opt_in = toBool(p.whatsappOptIn);
@@ -77,14 +80,14 @@ const mapProfileToDb = (p) => {
 
 const saveToSupabase = async (profile, matchedSchemes, aiResponse) => {
   if (!supabase) {
-    console.warn('⚠️  saveToSupabase: Supabase client is null — skipping');
-    return;
+    console.warn('⚠️ [saveToSupabase] Supabase client is null — skipping database save');
+    return false;
   }
   try {
     const dbProfile = mapProfileToDb(profile);
     let profileId;
 
-    console.log('📥 saveToSupabase: saving profile for mobile:', dbProfile.mobile || '(no mobile)');
+    console.log('📥 [saveToSupabase] Saving profile for mobile:', dbProfile.mobile || '(no mobile)');
 
     if (dbProfile.mobile) {
       const { data: existingProfile, error: fetchErr } = await supabase
@@ -93,34 +96,39 @@ const saveToSupabase = async (profile, matchedSchemes, aiResponse) => {
         .eq('mobile', dbProfile.mobile)
         .maybeSingle();
 
-      if (fetchErr) console.error('⚠️  saveToSupabase fetch error:', fetchErr.message);
+      if (fetchErr) {
+        console.error('❌ [saveToSupabase] Profile fetch error:', fetchErr.message);
+      }
 
       if (existingProfile) {
         profileId = existingProfile.id;
-        console.log('🔄 saveToSupabase: existing profile found, id:', profileId);
-        // Clean up the random UUID since we are using existing
+        console.log('🔄 [saveToSupabase] Existing profile found, id:', profileId);
         delete dbProfile.id;
         const { error: updateErr } = await supabase.from('profiles').update(dbProfile).eq('id', profileId);
-        if (updateErr) console.error('⚠️  saveToSupabase update error:', updateErr.message);
+        if (updateErr) {
+          console.error('❌ [saveToSupabase] Profile update failed:', updateErr.message, updateErr.details || '');
+        } else {
+          console.log('✅ [saveToSupabase] Profile updated successfully! ID:', profileId);
+        }
       }
     }
 
     if (!profileId) {
-      console.log('➕ saveToSupabase: inserting new profile...');
+      console.log('➕ [saveToSupabase] Inserting new profile...');
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .insert([dbProfile])
         .select();
       if (!profileError && profileData && profileData.length > 0) {
         profileId = profileData[0].id;
-        console.log('✅ saveToSupabase: new profile inserted, id:', profileId);
+        console.log('✅ [saveToSupabase] New profile inserted successfully! ID:', profileId);
       } else if (profileError) {
-        console.error('⚠️  saveToSupabase profile insert error:', profileError.message, profileError.details);
+        console.error('❌ [saveToSupabase] Profile insert failed:', profileError.message, profileError.details || '');
       }
     }
 
     if (profileId) {
-      console.log('📤 saveToSupabase: inserting recommendation for profile_id:', profileId);
+      console.log('📤 [saveToSupabase] Inserting recommendation for profile_id:', profileId);
       const { error: recErr } = await supabase
         .from('user_recommendations')
         .insert([{
@@ -129,65 +137,79 @@ const saveToSupabase = async (profile, matchedSchemes, aiResponse) => {
           ai_response: aiResponse
         }]);
       if (recErr) {
-        console.error('⚠️  saveToSupabase recommendation insert error:', recErr.message, recErr.details);
+        console.error('❌ [saveToSupabase] Recommendation insert failed:', recErr.message, recErr.details || '');
+        return false;
       } else {
-        console.log('✅ saveToSupabase: recommendation saved successfully!');
+        console.log('✅ [saveToSupabase] Recommendation saved successfully for profile_id:', profileId);
+        return true;
       }
     } else {
-      console.warn('⚠️  saveToSupabase: no profileId resolved — recommendation not saved');
+      console.warn('⚠️ [saveToSupabase] No profileId resolved — recommendation not saved');
+      return false;
     }
   } catch (dbError) {
-    console.error('⚠️  saveToSupabase caught exception:', dbError.message);
+    console.error('❌ [saveToSupabase] Caught exception during save:', dbError.message, dbError);
+    return false;
   }
 };
 
-
-const matchSchemes = (req, res) => {
+const matchSchemes = async (req, res) => {
   try {
-    const { age, gender, category, occupation, annualIncome, maritalStatus, state } = req.body;
+    const profile = req.body;
+    const { age, gender, category, occupation, annualIncome, maritalStatus, state } = profile;
 
-    // Optional: basic validation
-    if (age === undefined || !gender || !category || !occupation || annualIncome === undefined || !maritalStatus || !state) {
-        return res.status(400).json({ message: 'Missing one or more required profile fields' });
-    }
+    const userAge = age !== undefined ? Number(age) : null;
+    const userIncome = annualIncome !== undefined ? Number(annualIncome) : 0;
 
     const schemesData = fs.readFileSync(schemesFilePath, 'utf8');
     const schemes = JSON.parse(schemesData);
 
     const matchedSchemes = schemes.filter(scheme => {
       const el = scheme.eligibility;
+      if (!el) return true;
 
       // Check age
-      if (age < el.minAge) return false;
-      if (el.maxAge !== null && age > el.maxAge) return false;
+      if (userAge !== null) {
+        if (el.minAge !== null && userAge < el.minAge) return false;
+        if (el.maxAge !== null && userAge > el.maxAge) return false;
+      }
 
       // Check gender
-      if (el.gender !== 'any' && el.gender.toLowerCase() !== gender.toLowerCase()) return false;
+      if (gender && el.gender && el.gender !== 'any' && el.gender.toLowerCase() !== gender.toLowerCase()) return false;
 
       // Check category
-      const userCategory = category.toLowerCase();
-      if (!el.category.includes('any') && !el.category.map(c => c.toLowerCase()).includes(userCategory)) return false;
+      if (category && el.category && !el.category.includes('any')) {
+        const userCategory = category.toLowerCase();
+        if (!el.category.map(c => c.toLowerCase()).includes(userCategory)) return false;
+      }
 
       // Check occupation
-      const userOccupation = occupation.toLowerCase();
-      if (!el.occupation.includes('any') && !el.occupation.map(o => o.toLowerCase()).includes(userOccupation)) return false;
+      if (occupation && el.occupation && !el.occupation.includes('any')) {
+        const userOccupation = occupation.toLowerCase();
+        if (!el.occupation.map(o => o.toLowerCase()).includes(userOccupation)) return false;
+      }
 
       // Check income
-      if (el.maxAnnualIncome !== null && annualIncome > el.maxAnnualIncome) return false;
+      if (el.maxAnnualIncome !== null && userIncome > el.maxAnnualIncome) return false;
 
       // Check state
-      if (el.state.toLowerCase() !== 'all' && el.state.toLowerCase() !== state.toLowerCase()) return false;
+      if (state && el.state && el.state.toLowerCase() !== 'all' && el.state.toLowerCase() !== state.toLowerCase()) return false;
 
       // Check marital status
-      if (el.maritalStatus !== 'any' && el.maritalStatus.toLowerCase() !== maritalStatus.toLowerCase()) return false;
+      if (maritalStatus && el.maritalStatus && el.maritalStatus !== 'any' && el.maritalStatus.toLowerCase() !== maritalStatus.toLowerCase()) return false;
 
       return true;
     });
 
+    // ── Save to Supabase when /api/match-schemes is called ──
+    saveToSupabase(profile, matchedSchemes, null).catch((e) =>
+      console.error('❌ [schemeController:matchSchemes] Supabase save error:', e.message)
+    );
+
     res.json(matchedSchemes);
   } catch (error) {
-    console.error('Error matching schemes:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('❌ [schemeController:matchSchemes] Error matching schemes:', error);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 };
 
@@ -200,12 +222,12 @@ const aiRecommend = async (req, res) => {
 
   // ── Always persist profile + matched schemes to Supabase, regardless of AI outcome ──
   saveToSupabase(profile, matchedSchemes, null).catch((e) =>
-    console.error('⚠️  Supabase pre-save error:', e.message)
+    console.error('❌ [schemeController:aiRecommend] Supabase pre-save error:', e.message)
   );
 
   // ── If no Mistral key configured, return a structured fallback immediately ──
   if (!process.env.MISTRAL_API_KEY) {
-    console.warn('⚠️  MISTRAL_API_KEY not set — returning fallback recommendation');
+    console.warn('⚠️ [schemeController:aiRecommend] MISTRAL_API_KEY not set — returning fallback recommendation');
     return res.json(buildFallback(matchedSchemes));
   }
 
@@ -252,7 +274,7 @@ You must respond ONLY with a valid JSON object in the following exact format wit
 
     res.json(parsedData);
   } catch (error) {
-    console.error('Error generating AI recommendation — returning fallback:', error.message);
+    console.error('❌ [schemeController:aiRecommend] Error generating AI recommendation — returning fallback:', error.message);
     // Still return valid data to the frontend using the fallback
     res.json(buildFallback(matchedSchemes));
   }
@@ -278,8 +300,8 @@ const buildFallback = (matchedSchemes) => {
   };
 };
 
-
 module.exports = {
+  saveToSupabase,
   matchSchemes,
   aiRecommend
 };
