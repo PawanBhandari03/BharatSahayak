@@ -175,8 +175,8 @@ export default function Timeline() {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line */}
-          <div className="hidden md:block absolute top-10 left-0 right-0 h-0.5 mx-16"
-            style={{ background: 'linear-gradient(90deg, #6B3FA0, #1D9E75)' }} />
+          <div className="hidden md:block absolute top-10 left-[7%] right-[7%] h-0.5 z-0 pointer-events-none opacity-60"
+            style={{ background: 'linear-gradient(90deg, #6B3FA0, #9353D3, #2196F3, #25D366, #FF9800, #E65100, #1D9E75)' }} />
 
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4 md:gap-2">
             {JOURNEY_STEPS.map((step, i) => (
@@ -190,8 +190,8 @@ export default function Timeline() {
               >
                 <motion.div
                   whileHover={{ scale: 1.15, y: -4 }}
-                  className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl flex flex-col items-center justify-center mb-3 border-2 transition-all duration-300 cursor-default"
-                  style={{ background: `${step.color}15`, borderColor: `${step.color}40` }}
+                  className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl flex flex-col items-center justify-center mb-3 border-2 transition-all duration-300 cursor-default shadow-lg"
+                  style={{ background: '#1A1633', borderColor: `${step.color}60` }}
                 >
                   <span className="text-2xl mb-0.5">{step.icon}</span>
                   <span className="text-xs font-bold" style={{ color: step.color }}>0{step.step}</span>

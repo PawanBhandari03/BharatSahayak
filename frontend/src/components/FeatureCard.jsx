@@ -13,7 +13,7 @@ const cardVariants = {
   }),
 };
 
-export default function FeatureCard({ icon, title, description, badge, color, index }) {
+export default function FeatureCard({ icon, title, description, badge, color, index, className = '' }) {
   return (
     <motion.div
       custom={index}
@@ -22,7 +22,7 @@ export default function FeatureCard({ icon, title, description, badge, color, in
       whileInView="visible"
       viewport={{ once: true, margin: '-60px' }}
       whileHover={{ y: -8, scale: 1.02 }}
-      className="relative group rounded-2xl p-6 border transition-all duration-300 cursor-default"
+      className={`relative group rounded-2xl p-6 border transition-all duration-300 cursor-default flex flex-col justify-between ${className}`}
       style={{
         background: '#221E3D',
         borderColor: '#2E2856',

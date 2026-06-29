@@ -30,6 +30,16 @@ function PageLoader() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [language, setLanguage] = useState('en');
@@ -54,6 +64,7 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-dark-bg text-white' : 'bg-light-bg text-dark-bg'}`}>
+      <ScrollToTop />
       {/* Toast notifications */}
       <Toaster
         position="top-right"

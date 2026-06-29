@@ -22,7 +22,7 @@ const TEAM = [
     skills: ['React', 'Node.js', 'Claude API', 'MongoDB'],
     contribution: 'Built the AI scheme matching engine, WhatsApp integration, and Benefit Wallet.',
     github: 'https://github.com/PawanBhandari03',
-    linkedin: '#',
+    linkedin: 'https://www.linkedin.com/in/pawan-singh-bhandari-5817ab307',
     twitter: '#',
   },
   {
@@ -35,8 +35,8 @@ const TEAM = [
     bg: 'from-teal-900 to-teal-700',
     skills: ['Node.js', 'Twilio', 'Aadhaar API', 'DevOps'],
     contribution: 'Built the voice call system, Aadhaar PIN authentication, and CSC integration layer.',
-    github: '#',
-    linkedin: '#',
+    github: 'https://github.com/RAHUL0408-B',
+    linkedin: 'https://www.linkedin.com/in/rahul-bramhankar-a424a328b?utm_source=share_via&utm_content=profile&utm_medium=member_android',
     twitter: '#',
   },
 ];
@@ -65,23 +65,19 @@ function TeamCard({ member, index }) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.2, duration: 0.7 }}
       whileHover={{ y: -6 }}
-      className="rounded-2xl border overflow-hidden group"
+      className="rounded-2xl border p-6 group flex flex-col justify-between"
       style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
-      {/* Cover */}
-      <div className={`h-32 bg-gradient-to-br ${member.bg} relative flex items-center justify-center`}>
-        <div className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
-        <span className="text-5xl">{member.emoji}</span>
-      </div>
-
-      <div className="px-6 pb-6 -mt-6">
-        {/* Avatar */}
-        <div
-          className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white border-4 mb-4"
-          style={{ background: member.color, borderColor: '#221E3D' }}
-        >
-          {member.avatar}
+      <div>
+        {/* Top Header Row with Avatar & Emoji */}
+        <div className="flex items-center justify-between mb-5">
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white shadow-lg"
+            style={{ background: member.color }}
+          >
+            {member.avatar}
+          </div>
+          <span className="text-3xl p-2 rounded-2xl bg-white/5 border border-white/10">{member.emoji}</span>
         </div>
 
         <h3 className="text-white font-bold text-xl mb-0.5">{member.name}</h3>

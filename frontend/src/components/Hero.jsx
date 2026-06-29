@@ -85,17 +85,35 @@ function IndiaMapSVG() {
   );
 }
 
-// Floating rupee badge
-function FloatingBadge({ text, className, delay = 0 }) {
+// Floating scheme badge with vibrant design and continuous floating motion
+function FloatingBadge({ icon, title, amount, className, delay = 0, duration = 5, floatY = 14, borderGlow = 'rgba(124, 58, 237, 0.3)', badgeBg = 'rgba(26, 20, 51, 0.88)' }) {
   return (
     <motion.div
-      className={`absolute glass px-4 py-2 rounded-xl text-sm font-semibold shadow-lg ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.8 }}
-      style={{ animation: `float ${4 + Math.random() * 2}s ease-in-out infinite`, animationDelay: `${delay}s` }}
+      className={`absolute flex items-center gap-3 px-4 py-2.5 rounded-2xl border backdrop-blur-md shadow-2xl pointer-events-none select-none ${className}`}
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={{ 
+        opacity: 1, 
+        scale: 1,
+        y: [0, -floatY, 0, floatY * 0.6, 0],
+        rotate: [0, 1.8, 0, -1.8, 0]
+      }}
+      transition={{
+        opacity: { delay, duration: 0.8 },
+        scale: { delay, duration: 0.8 },
+        y: { repeat: Infinity, duration: duration, ease: "easeInOut", delay: delay },
+        rotate: { repeat: Infinity, duration: duration * 1.3, ease: "easeInOut", delay: delay }
+      }}
+      style={{
+        background: badgeBg,
+        borderColor: borderGlow,
+        boxShadow: `0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px 0 ${borderGlow}`
+      }}
     >
-      {text}
+      <span className="text-xl sm:text-2xl flex items-center justify-center shrink-0">{icon}</span>
+      <div className="flex flex-col text-left">
+        <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-white/70 leading-tight">{title}</span>
+        <span className="text-xs sm:text-sm font-black text-white tracking-tight leading-tight">{amount}</span>
+      </div>
     </motion.div>
   );
 }
@@ -117,10 +135,80 @@ export default function Hero() {
       {/* India map background */}
       <IndiaMapSVG />
 
-      {/* Floating badges (positioned safely in outer margins to prevent overlap with content) */}
-      <FloatingBadge text="✅ PM-KISAN ₹6,000" className="hidden xl:flex top-28 left-4 2xl:left-12 text-secondary pointer-events-none z-0" delay={1.2} />
-      <FloatingBadge text="🏥 Ayushman ₹5L" className="hidden xl:flex top-28 right-4 2xl:right-12 text-blue-400 pointer-events-none z-0" delay={1.6} />
-      <FloatingBadge text="🏠 PMAY ₹1.30L" className="hidden xl:flex bottom-12 left-4 2xl:left-12 text-accent pointer-events-none z-0" delay={2} />
+      {/* Floating scheme badges - Vibrant, moving background elements */}
+      <div className="absolute inset-0 max-w-7xl mx-auto pointer-events-none z-0 overflow-hidden">
+        {/* Top Left: PM-KISAN */}
+        <FloatingBadge 
+          icon="🌽" 
+          title="PM-KISAN" 
+          amount="₹6,000 / year" 
+          className="hidden md:flex top-24 left-4 xl:left-2 text-emerald-400" 
+          delay={0.4} 
+          duration={5.5}
+          floatY={14}
+          borderGlow="rgba(29, 158, 117, 0.45)"
+        />
+        
+        {/* Top Right: Ayushman Bharat */}
+        <FloatingBadge 
+          icon="🏥" 
+          title="Ayushman Bharat" 
+          amount="₹5 Lakh Cover" 
+          className="hidden md:flex top-24 right-4 xl:right-2 text-sky-400" 
+          delay={0.8} 
+          duration={6.2}
+          floatY={16}
+          borderGlow="rgba(56, 189, 248, 0.45)"
+        />
+
+        {/* Center-Top / Upper Center Gap: PM Ujjwala */}
+        <FloatingBadge 
+          icon="🔥" 
+          title="Free LPG PMUY" 
+          amount="₹1,600 Subsidy" 
+          className="hidden lg:flex top-20 left-1/2 -translate-x-1/2 text-amber-400" 
+          delay={1.2} 
+          duration={5.8}
+          floatY={12}
+          borderGlow="rgba(245, 158, 11, 0.45)"
+        />
+
+        {/* Middle Center (Between text and mockup): MahaDBT Grant */}
+        <FloatingBadge 
+          icon="💰" 
+          title="MahaDBT Grant" 
+          amount="₹25,000 Benefit" 
+          className="hidden xl:flex top-1/2 left-[56%] -translate-y-1/2 text-purple-300" 
+          delay={1.5} 
+          duration={6.5}
+          floatY={18}
+          borderGlow="rgba(168, 85, 247, 0.45)"
+        />
+
+        {/* Bottom Left: PMAY */}
+        <FloatingBadge 
+          icon="🏠" 
+          title="PMAY Housing" 
+          amount="₹1.30 Lakh" 
+          className="hidden md:flex bottom-16 left-4 xl:left-4 text-orange-400" 
+          delay={1.8} 
+          duration={5.2}
+          floatY={15}
+          borderGlow="rgba(230, 81, 0, 0.45)"
+        />
+
+        {/* Bottom Center / Right: Widow Pension */}
+        <FloatingBadge 
+          icon="👵" 
+          title="Widow Pension" 
+          amount="₹1,500 / month" 
+          className="hidden lg:flex bottom-14 right-1/3 text-teal-300" 
+          delay={2.1} 
+          duration={6.0}
+          floatY={13}
+          borderGlow="rgba(45, 212, 191, 0.45)"
+        />
+      </div>
 
       {/* Main content grid */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">

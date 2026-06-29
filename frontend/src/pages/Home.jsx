@@ -94,9 +94,11 @@ export default function Home() {
               <span className="gradient-text-primary">Changes Everything</span>
             </motion.h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="flex flex-wrap justify-center gap-6">
             {FEATURES.map((f, i) => (
-              <FeatureCard key={f.title} {...f} index={i} />
+              <div key={f.title} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-sm flex">
+                <FeatureCard {...f} index={i} className="w-full" />
+              </div>
             ))}
           </div>
         </div>
@@ -281,38 +283,91 @@ export default function Home() {
       <section className="py-24 px-4 relative overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left: Chat info */}
+            {/* Left: Chat info & Scanner */}
             <div className="lg:col-span-5 flex justify-center lg:justify-start">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="p-8 rounded-3xl border text-center space-y-6 w-full max-w-[340px]"
+                className="p-6 sm:p-8 rounded-3xl border text-center space-y-5 w-full max-w-[360px] shadow-glow-secondary/10"
                 style={{ background: '#221E3D', borderColor: '#2E2856' }}
               >
-                {/* QR Code Placeholder */}
-                <div className="p-4 bg-white rounded-2xl inline-block mx-auto">
-                  <div className="w-40 h-40 flex items-center justify-center relative bg-white border border-gray-200 rounded-lg">
-                    {/* Fake QR pattern using CSS */}
-                    <div className="absolute inset-2 bg-slate-900 rounded-md" style={{
-                      backgroundImage: 'radial-gradient(#fff 25%, transparent 25%), radial-gradient(#fff 25%, transparent 25%)',
-                      backgroundSize: '8px 8px',
-                      backgroundPosition: '0 0, 4px 4px'
-                    }} />
-                    {/* Inner QR center brand */}
-                    <div className="absolute w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 z-10 text-xl font-bold">
-                      💬
+                {/* Real Twilio QR Scanner Code */}
+                <div className="p-3 bg-white rounded-2xl inline-block mx-auto shadow-2xl relative group">
+                  <div className="w-44 h-44 relative bg-white flex items-center justify-center p-1.5">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                      {/* Background */}
+                      <rect width="100" height="100" fill="#ffffff" />
+                      
+                      {/* Corner Finder Patterns */}
+                      {/* Top Left */}
+                      <rect x="4" y="4" width="28" height="28" fill="#000000" rx="4" />
+                      <rect x="8" y="8" width="20" height="20" fill="#ffffff" rx="3" />
+                      <rect x="12" y="12" width="12" height="12" fill="#000000" rx="2" />
+                      
+                      {/* Top Right */}
+                      <rect x="68" y="4" width="28" height="28" fill="#000000" rx="4" />
+                      <rect x="72" y="8" width="20" height="20" fill="#ffffff" rx="3" />
+                      <rect x="76" y="12" width="12" height="12" fill="#000000" rx="2" />
+                      
+                      {/* Bottom Left */}
+                      <rect x="4" y="68" width="28" height="28" fill="#000000" rx="4" />
+                      <rect x="8" y="72" width="20" height="20" fill="#ffffff" rx="3" />
+                      <rect x="12" y="76" width="12" height="12" fill="#000000" rx="2" />
+
+                      {/* Alignment Pattern */}
+                      <rect x="70" y="70" width="16" height="16" fill="#000000" rx="3" />
+                      <rect x="73" y="73" width="10" height="10" fill="#ffffff" rx="2" />
+                      <rect x="76" y="76" width="4" height="4" fill="#000000" />
+
+                      {/* Data Modules Grid */}
+                      <path d="
+                        M 36 6 h 5 v 5 h -5 z M 45 6 h 5 v 5 h -5 z M 54 6 h 5 v 5 h -5 z
+                        M 36 15 h 5 v 5 h -5 z M 50 15 h 5 v 5 h -5 z M 59 15 h 5 v 5 h -5 z
+                        M 36 24 h 5 v 5 h -5 z M 45 24 h 5 v 5 h -5 z M 54 24 h 5 v 5 h -5 z
+                        M 6 36 h 5 v 5 h -5 z M 15 36 h 5 v 5 h -5 z M 24 36 h 5 v 5 h -5 z M 36 36 h 5 v 5 h -5 z M 45 36 h 5 v 5 h -5 z M 68 36 h 5 v 5 h -5 z M 77 36 h 5 v 5 h -5 z M 86 36 h 5 v 5 h -5 z
+                        M 6 45 h 5 v 5 h -5 z M 24 45 h 5 v 5 h -5 z M 36 45 h 5 v 5 h -5 z M 54 45 h 5 v 5 h -5 z M 68 45 h 5 v 5 h -5 z M 86 45 h 5 v 5 h -5 z
+                        M 15 54 h 5 v 5 h -5 z M 36 54 h 5 v 5 h -5 z M 45 54 h 5 v 5 h -5 z M 68 54 h 5 v 5 h -5 z M 77 54 h 5 v 5 h -5 z
+                        M 6 63 h 5 v 5 h -5 z M 15 63 h 5 v 5 h -5 z M 24 63 h 5 v 5 h -5 z M 36 63 h 5 v 5 h -5 z M 54 63 h 5 v 5 h -5 z M 86 63 h 5 v 5 h -5 z
+                        M 36 72 h 5 v 5 h -5 z M 45 72 h 5 v 5 h -5 z M 54 72 h 5 v 5 h -5 z
+                        M 36 81 h 5 v 5 h -5 z M 50 81 h 5 v 5 h -5 z M 59 81 h 5 v 5 h -5 z M 68 81 h 5 v 5 h -5 z M 86 81 h 5 v 5 h -5 z
+                        M 36 90 h 5 v 5 h -5 z M 45 90 h 5 v 5 h -5 z M 54 90 h 5 v 5 h -5 z M 68 90 h 5 v 5 h -5 z M 77 90 h 5 v 5 h -5 z
+                      " fill="#000000" />
+                    </svg>
+                    
+                    {/* Center WhatsApp Logo Badge */}
+                    <div className="absolute w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg border-2 border-white text-white">
+                      <MessageSquare size={20} className="fill-white stroke-none" />
                     </div>
                   </div>
                 </div>
 
-                <p className="text-white/40 text-xs max-w-xs mx-auto leading-relaxed">
-                  Scan QR code with your mobile camera to chat with BharatSahayak AI immediately.
-                </p>
+                {/* Twilio Sandbox Info Details */}
+                <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10 text-xs space-y-2 text-left">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span className="text-white/50 font-semibold text-[11px]">Twilio WhatsApp Sandbox</span>
+                    <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Bot
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-white font-mono bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
+                    <span className="text-white/50 text-[11px]">Number:</span>
+                    <span className="text-emerald-400 font-bold text-xs">+1 415 523 8886</span>
+                  </div>
+                  <div className="flex items-center justify-between text-white font-mono bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
+                    <span className="text-white/50 text-[11px]">Send code:</span>
+                    <span className="text-amber-300 font-bold text-xs">join spent-opinion</span>
+                  </div>
+                </div>
 
-                <a href="https://wa.me/911234567890?text=HELLO" target="_blank" rel="noreferrer" className="btn-secondary w-full justify-center">
-                  <MessageSquare size={16} />
-                  Chat on WhatsApp
+                <a 
+                  href="https://wa.me/14155238886?text=join%20spent-opinion" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="btn-secondary w-full justify-center text-sm font-bold py-3.5 shadow-glow-secondary/30"
+                >
+                  <MessageSquare size={18} />
+                  Open Twilio WhatsApp
                 </a>
               </motion.div>
             </div>
@@ -336,27 +391,30 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
               >
-                No websites to navigate, no complex credentials. Our certified WhatsApp AI Bot lets you manage your benefits through simple chat messages.
+                No websites to navigate, no complex credentials. Our certified WhatsApp AI Bot connected to Twilio lets you manage your government benefits through simple chat messages.
               </motion.p>
 
               <div className="space-y-4 pt-4">
                 {[
-                  { step: '1', text: 'Scan the QR code or click the button to launch WhatsApp.' },
-                  { step: '2', text: 'Send a message saying "HELLO" to start a secure chat session.' },
-                  { step: '3', text: 'Receive your personalized document checklist and apply with one click.' }
+                  { step: '1', title: 'Scan or Tap', text: 'Scan the QR scanner code with your phone or click the button to open WhatsApp.' },
+                  { step: '2', title: 'Connect to Twilio Bot', text: 'Send the message "join spent-opinion" to activate your chat session with +1 415 523 8886.' },
+                  { step: '3', title: 'Instant AI Scheme Match', text: 'Receive your personalized document checklist and government scheme matches instantly.' }
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
-                    className="flex items-start gap-4"
+                    className="flex items-start gap-4 p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-secondary/30 transition-colors"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-secondary/20 text-secondary flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+                    <div className="w-7 h-7 rounded-full bg-secondary/20 text-secondary flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                       {item.step}
                     </div>
-                    <p className="text-white/70 text-sm leading-relaxed">{item.text}</p>
+                    <div>
+                      <h4 className="text-white font-bold text-sm mb-0.5">{item.title}</h4>
+                      <p className="text-white/60 text-xs leading-relaxed">{item.text}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>

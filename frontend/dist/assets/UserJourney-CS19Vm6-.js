@@ -1,4 +1,4 @@
-import{c as h,r as o,j as e,m as s,z as c}from"./index-B_vT4KHQ.js";import{W as p,P as u}from"./WhatsAppDemo-HsRtEGma.js";import{V as y}from"./Timeline-BThGhB6D.js";import{P as b}from"./phone-C-7LbbNk.js";/**
+import{c as h,r as o,j as e,m as s,z as c}from"./index-B5T7U4Mj.js";import{W as p,P as u}from"./WhatsAppDemo-BqbesCv1.js";import{V as y}from"./Timeline-7k4ypda-.js";import{P as b}from"./phone-CfrClorg.js";/**
  * @license lucide-react v0.344.0 - ISC
  *
  * This source code is licensed under the ISC license.

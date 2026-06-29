@@ -54,20 +54,13 @@ function ProfileCard({ user, wallet }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border overflow-hidden"
+      className="rounded-2xl border p-6"
       style={{ background: '#221E3D', borderColor: '#2E2856' }}
     >
-      {/* Cover */}
-      <div className="h-24 relative" style={{ background: 'linear-gradient(135deg, #7C3AED, #1D9E75)' }}>
-        <div className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")" }} />
-      </div>
-
-      <div className="px-6 pb-6 -mt-8">
+      <div>
         {/* Avatar */}
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-700 to-purple-500 flex items-center justify-center text-2xl border-4 mb-4"
-          style={{ borderColor: '#221E3D' }}>
-          {avatar}
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-700 to-purple-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg mb-4">
+          {avatar || initials}
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
