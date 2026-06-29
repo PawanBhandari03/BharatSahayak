@@ -27,9 +27,20 @@
 
   .light body,
   html.light body {
-    @apply bg-dark-bg text-light-bg;
-    background-color: #0D0B1F;
-    color: #F5F4F0;
+    background-color: #F5F4F0;
+    color: #1A1633;
+  }
+
+  html.light {
+    color-scheme: light;
+  }
+
+  html.light ::-webkit-scrollbar-track {
+    background: #E8E6F0;
+  }
+
+  html.light ::-webkit-scrollbar-thumb {
+    background: #7C3AED;
   }
 
   /* Custom scrollbar */

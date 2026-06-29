@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, Globe, Wallet, ChevronDown } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const NAV_LINKS = [
   { path: '/', label: 'Home', labelHi: 'होम', labelMr: 'मुख्यपृष्ठ' },
@@ -135,11 +136,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
               {/* Dark mode toggle */}
               <button
-                onClick={() => toast('BharatSahayak is optimized in Dark Mode for high readability! 🌙', { icon: '✨' })}
+                onClick={() => setDarkMode(!darkMode)}
                 className="w-9 h-9 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-all"
                 title="Toggle theme"
               >
-                <Moon size={16} />
+                {darkMode ? <Sun size={16} /> : <Moon size={16} />}
               </button>
 
               {/* CTA */}
@@ -220,11 +221,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
                   <div className="flex gap-2">
                     <button
-                      onClick={() => toast('BharatSahayak is optimized in Dark Mode for high readability! 🌙', { icon: '✨' })}
+                      onClick={() => setDarkMode(!darkMode)}
                       className="flex-1 py-2.5 rounded-lg text-sm text-white/60 bg-dark-card hover:text-white transition-all flex items-center justify-center gap-2"
                     >
-                      <Moon size={14} />
-                      Dark Mode
+                      {darkMode ? <Sun size={14} /> : <Moon size={14} />}
+                      {darkMode ? 'Light Mode' : 'Dark Mode'}
                     </button>
                   </div>
 
