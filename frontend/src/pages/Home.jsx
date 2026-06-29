@@ -216,7 +216,7 @@ export default function Home() {
               {/* 4-step process timeline */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                 {[
-                  { step: '1', title: 'Dial Toll-Free', desc: 'Call 1800-203-5000 from your phone.' },
+                  { step: '1', title: 'Dial Toll-Free', desc: 'Call +1 424 496 5091 from your phone.' },
                   { step: '2', title: 'Choose Language', desc: 'Listen & interact in Hindi or Marathi.' },
                   { step: '3', title: 'Speak to AI', desc: 'Answer simple profile questions.' },
                   { step: '4', title: 'Get SMS Alerts', desc: 'Receive schemes checklist via SMS.' }
@@ -249,7 +249,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 className="p-8 rounded-3xl border w-full max-w-[360px] text-center space-y-6 shadow-glow-accent/5"
-                style={{ background: '#221E3D', borderColor: '#2E2856' }}
+                style={{ background: 'transparent', borderColor: '#2E2856' }}
               >
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto text-accent shadow-glow-accent/25">
                   <Phone size={28} />
@@ -257,8 +257,8 @@ export default function Home() {
                 
                 <div>
                   <p className="text-white/40 text-xs uppercase tracking-wider mb-1">Toll-Free Helpline</p>
-                  <a href="tel:18002035000" className="text-2xl sm:text-3xl font-black text-white hover:text-accent transition-colors">
-                    1800-203-5000
+                  <a href="tel:+14244965091" className="text-2xl sm:text-3xl font-black text-white hover:text-accent transition-colors">
+                    +1 424 496 5091
                   </a>
                 </div>
 
@@ -269,7 +269,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <a href="tel:18002035000" className="btn-primary w-full justify-center" style={{ background: 'linear-gradient(135deg, #E65100, #F7841E)', boxShadow: '0 4px 16px rgba(230, 81, 0, 0.35)' }}>
+                <a href="tel:+14244965091" className="btn-primary w-full justify-center" style={{ background: 'linear-gradient(135deg, #E65100, #F7841E)', boxShadow: '0 4px 16px rgba(230, 81, 0, 0.35)' }}>
                   <Phone size={15} />
                   Call Helpline Now
                 </a>
