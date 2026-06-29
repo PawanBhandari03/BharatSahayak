@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/whatsapp', require('./routes/whatsapp'));
+app.use('/api/call', require('./routes/call'));
 app.use('/api', require('./routes/schemes'));
 
 // Health check
