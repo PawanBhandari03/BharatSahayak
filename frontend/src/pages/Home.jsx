@@ -183,7 +183,7 @@ export default function Home() {
       </section>
 
       {/* No Smartphone Section */}
-      <section className="py-24 px-4 relative overflow-hidden" style={{ background: '#1A1633' }}>
+      <section className="py-24 px-4 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 blur-3xl"
             style={{ background: 'radial-gradient(circle, #7C3AED, transparent)' }} />
@@ -295,45 +295,11 @@ export default function Home() {
                 {/* Real Twilio QR Scanner Code */}
                 <div className="p-3 bg-white rounded-2xl inline-block mx-auto shadow-2xl relative group">
                   <div className="w-44 h-44 relative bg-white flex items-center justify-center p-1.5">
-                    <svg viewBox="0 0 100 100" className="w-full h-full">
-                      {/* Background */}
-                      <rect width="100" height="100" fill="#ffffff" />
-                      
-                      {/* Corner Finder Patterns */}
-                      {/* Top Left */}
-                      <rect x="4" y="4" width="28" height="28" fill="#000000" rx="4" />
-                      <rect x="8" y="8" width="20" height="20" fill="#ffffff" rx="3" />
-                      <rect x="12" y="12" width="12" height="12" fill="#000000" rx="2" />
-                      
-                      {/* Top Right */}
-                      <rect x="68" y="4" width="28" height="28" fill="#000000" rx="4" />
-                      <rect x="72" y="8" width="20" height="20" fill="#ffffff" rx="3" />
-                      <rect x="76" y="12" width="12" height="12" fill="#000000" rx="2" />
-                      
-                      {/* Bottom Left */}
-                      <rect x="4" y="68" width="28" height="28" fill="#000000" rx="4" />
-                      <rect x="8" y="72" width="20" height="20" fill="#ffffff" rx="3" />
-                      <rect x="12" y="76" width="12" height="12" fill="#000000" rx="2" />
-
-                      {/* Alignment Pattern */}
-                      <rect x="70" y="70" width="16" height="16" fill="#000000" rx="3" />
-                      <rect x="73" y="73" width="10" height="10" fill="#ffffff" rx="2" />
-                      <rect x="76" y="76" width="4" height="4" fill="#000000" />
-
-                      {/* Data Modules Grid */}
-                      <path d="
-                        M 36 6 h 5 v 5 h -5 z M 45 6 h 5 v 5 h -5 z M 54 6 h 5 v 5 h -5 z
-                        M 36 15 h 5 v 5 h -5 z M 50 15 h 5 v 5 h -5 z M 59 15 h 5 v 5 h -5 z
-                        M 36 24 h 5 v 5 h -5 z M 45 24 h 5 v 5 h -5 z M 54 24 h 5 v 5 h -5 z
-                        M 6 36 h 5 v 5 h -5 z M 15 36 h 5 v 5 h -5 z M 24 36 h 5 v 5 h -5 z M 36 36 h 5 v 5 h -5 z M 45 36 h 5 v 5 h -5 z M 68 36 h 5 v 5 h -5 z M 77 36 h 5 v 5 h -5 z M 86 36 h 5 v 5 h -5 z
-                        M 6 45 h 5 v 5 h -5 z M 24 45 h 5 v 5 h -5 z M 36 45 h 5 v 5 h -5 z M 54 45 h 5 v 5 h -5 z M 68 45 h 5 v 5 h -5 z M 86 45 h 5 v 5 h -5 z
-                        M 15 54 h 5 v 5 h -5 z M 36 54 h 5 v 5 h -5 z M 45 54 h 5 v 5 h -5 z M 68 54 h 5 v 5 h -5 z M 77 54 h 5 v 5 h -5 z
-                        M 6 63 h 5 v 5 h -5 z M 15 63 h 5 v 5 h -5 z M 24 63 h 5 v 5 h -5 z M 36 63 h 5 v 5 h -5 z M 54 63 h 5 v 5 h -5 z M 86 63 h 5 v 5 h -5 z
-                        M 36 72 h 5 v 5 h -5 z M 45 72 h 5 v 5 h -5 z M 54 72 h 5 v 5 h -5 z
-                        M 36 81 h 5 v 5 h -5 z M 50 81 h 5 v 5 h -5 z M 59 81 h 5 v 5 h -5 z M 68 81 h 5 v 5 h -5 z M 86 81 h 5 v 5 h -5 z
-                        M 36 90 h 5 v 5 h -5 z M 45 90 h 5 v 5 h -5 z M 54 90 h 5 v 5 h -5 z M 68 90 h 5 v 5 h -5 z M 77 90 h 5 v 5 h -5 z
-                      " fill="#000000" />
-                    </svg>
+                    <img 
+                      src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://wa.me/14155238886?text=join%20spent-opinion" 
+                      alt="WhatsApp QR Code" 
+                      className="w-full h-full object-contain mix-blend-multiply"
+                    />
                     
                     {/* Center WhatsApp Logo Badge */}
                     <div className="absolute w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg border-2 border-white text-white">
