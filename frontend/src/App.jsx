@@ -54,7 +54,7 @@ export default function App() {
   if (loading) return <Loader />;
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-dark-bg text-white' : 'bg-light-bg text-dark-bg'}`}>
+    <div className="min-h-screen flex flex-col bg-dark-bg text-white">
       <ScrollToTop />
       {/* Toast notifications */}
       <Toaster
