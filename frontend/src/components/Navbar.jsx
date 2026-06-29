@@ -136,11 +136,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
               {/* Dark mode toggle */}
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => toast('BharatSahayak is optimized for Dark Mode 🌙', { icon: '✨' })}
                 className="w-9 h-9 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-all"
-                title="Toggle theme"
+                title="Dark mode optimized"
               >
-                {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+                <Moon size={16} />
               </button>
 
               {/* CTA */}
@@ -221,11 +221,11 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
 
                   <div className="flex gap-2">
                     <button
-                      onClick={() => setDarkMode(!darkMode)}
+                      onClick={() => toast('BharatSahayak is optimized for Dark Mode 🌙', { icon: '✨' })}
                       className="flex-1 py-2.5 rounded-lg text-sm text-white/60 bg-dark-card hover:text-white transition-all flex items-center justify-center gap-2"
                     >
-                      {darkMode ? <Sun size={14} /> : <Moon size={14} />}
-                      {darkMode ? 'Light Mode' : 'Dark Mode'}
+                      <Moon size={14} />
+                      Dark Mode
                     </button>
                   </div>
 
