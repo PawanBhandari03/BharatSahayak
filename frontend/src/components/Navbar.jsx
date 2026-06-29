@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Globe, Wallet, ChevronDown } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Menu, X, Globe, Wallet, ChevronDown } from 'lucide-react';
 
 const NAV_LINKS = [
   { path: '/', label: 'Home', labelHi: 'होम', labelMr: 'मुख्यपृष्ठ' },
@@ -18,7 +17,7 @@ const LANGUAGES = [
   { code: 'mr', label: 'मर', full: 'Marathi' },
 ];
 
-export default function Navbar({ darkMode, setDarkMode, language, setLanguage }) {
+export default function Navbar({ language, setLanguage }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -134,14 +133,6 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
                 </AnimatePresence>
               </div>
 
-              {/* Dark mode toggle */}
-              <button
-                onClick={() => toast('BharatSahayak is optimized for Dark Mode 🌙', { icon: '✨' })}
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-all"
-                title="Dark mode optimized"
-              >
-                <Moon size={16} />
-              </button>
 
               {/* CTA */}
               <Link to="/register" className="btn-secondary text-sm py-2.5 px-5">
@@ -219,15 +210,6 @@ export default function Navbar({ darkMode, setDarkMode, language, setLanguage })
                     ))}
                   </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => toast('BharatSahayak is optimized for Dark Mode 🌙', { icon: '✨' })}
-                      className="flex-1 py-2.5 rounded-lg text-sm text-white/60 bg-dark-card hover:text-white transition-all flex items-center justify-center gap-2"
-                    >
-                      <Moon size={14} />
-                      Dark Mode
-                    </button>
-                  </div>
 
                   <Link to="/register" className="btn-secondary w-full justify-center text-sm py-3">
                     <Wallet size={15} />

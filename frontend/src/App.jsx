@@ -41,7 +41,6 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(true);
   const [language, setLanguage] = useState('en');
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -50,14 +49,6 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2200);
     return () => clearTimeout(timer);
-  }, []);
-
-  // Always enforce dark mode (app is dark-mode optimized)
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-    document.documentElement.classList.remove('light');
-    document.body.style.backgroundColor = '#0D0B1F';
-    document.body.style.color = '#F5F4F0';
   }, []);
 
   if (loading) return <Loader />;
@@ -82,8 +73,6 @@ export default function App() {
 
       {/* Navbar */}
       <Navbar
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
         language={language}
         setLanguage={setLanguage}
       />
